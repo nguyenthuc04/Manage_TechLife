@@ -73,67 +73,15 @@ const addStaff = async (event) => {
 
 const editStaff = async (id) => {
     try {
-        // Lấy thông tin nhân viên từ API
-        const response = await fetch(`${API_URL}/getStaff/${id}`);
-        if (!response.ok) throw new Error("Không thể lấy thông tin nhân viên.");
 
-        const staff = await response.json();
-
-        // Kiểm tra nếu phần tử input tồn tại trước khi gán giá trị
-        const editStaffId = document.getElementById("editStaffId");
-        const editStaffName = document.getElementById("editStaffName");
-        const editStaffEmail = document.getElementById("editStaffEmail");
-        const editStaffPhone = document.getElementById("editStaffPhone");
-        const editStaffPosition = document.getElementById("editStaffPosition");
-
-        if (!editStaffId || !editStaffName || !editStaffEmail || !editStaffPhone || !editStaffPosition) {
-            throw new Error("Không thể tìm thấy các trường input trong modal.");
-        }
-
-        // Gán giá trị vào các trường trong modal
-        editStaffId.value = staff._id;
-        editStaffName.value = staff.name;
-        editStaffEmail.value = staff.email;
-        editStaffPhone.value = staff.phone;
-        editStaffPosition.value = staff.position;
-
-        // Hiển thị modal sau khi gán giá trị vào các trường
-        $('#editStaffModal').modal('show');
     } catch (error) {
-        console.error("Lỗi khi lấy thông tin nhân viên:", error);
-        alert("Không thể tải thông tin nhân viên để chỉnh sửa!");
+
     }
 };
 
 
 
 
-// Hàm lưu thông tin nhân viên sau chỉnh sửa
-const saveStaffEdit = async (event) => {
-    event.preventDefault();
-
-    const id = document.getElementById("editStaffId").value;
-    const name = document.getElementById("editStaffName").value;
-    const email = document.getElementById("editStaffEmail").value;
-    const phone = document.getElementById("editStaffPhone").value;
-    const position = document.getElementById("editStaffPosition").value;
-
-    try {
-        const response = await fetch(`${API_URL}/updateStaff/${id}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, email, phone, position }),
-        });
-
-        if (!response.ok) throw new Error("Không thể cập nhật nhân viên.");
-        alert("Nhân viên đã được cập nhật thành công!");
-        $('#editStaffModal').modal('hide');
-        loadStaffList(); // Tải lại danh sách nhân viên
-    } catch (error) {
-        console.error("Lỗi khi cập nhật nhân viên:", error);
-        alert("Lỗi khi cập nhật nhân viên!");
-    }
-};
 
 // Hàm xóa nhân viên
 const deleteStaff = async (id) => {
