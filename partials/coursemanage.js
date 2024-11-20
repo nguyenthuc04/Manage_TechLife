@@ -1,5 +1,5 @@
 // URL của API (thay đổi nếu cần)
-const API_URL = "http://192.168.88.1:3000";
+const API_URL = "http://26.187.200.144:3000";
 
 //Hàm loadList
 const loadCourseList = async () => {
