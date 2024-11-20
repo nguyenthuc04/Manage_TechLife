@@ -71,11 +71,66 @@ const addStaff = async (event) => {
     }
 };
 
-// Hàm chỉnh sửa nhân viên
+
 const editStaff = async (id) => {
-    // Gọi modal chỉnh sửa và tải thông tin nhân viên theo ID
-    alert(`Chức năng chỉnh sửa nhân viên ID: ${id} đang được phát triển.`);
+    try {
+        // Lấy thông tin nhân viên cần chỉnh sửa từ API
+        const response = await fetch(`${API_URL}/getStaff/${id}`);
+        if (!response.ok) throw new Error("Không thể lấy thông tin nhân viên!");
+
+        const staff = await response.json();
+
+        // Điền thông tin nhân viên vào form chỉnh sửa
+        document.getElementById("editStaffName").value = staff.name;
+        document.getElementById("editStaffEmail").value = staff.email;
+        document.getElementById("editStaffPhone").value = staff.phone;
+        document.getElementById("editStaffPosition").value = staff.position;
+
+        // Cập nhật dữ liệu nhân viên
+        document.getElementById("editStaffForm").onsubmit = async (event) => {
+            event.preventDefault();
+            const name = document.getElementById("editStaffName").value;
+            const email = document.getElementById("editStaffEmail").value;
+            const phone = document.getElementById("editStaffPhone").value;
+            const position = document.getElementById("editStaffPosition").value;
+
+            try {
+                const response = await fetch(`${API_URL}/updateStaff/${id}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        phone,
+                        position,
+                    }),
+                });
+
+                if (!response.ok) throw new Error("Không thể cập nhật nhân viên.");
+                alert("Nhân viên đã được cập nhật thành công!");
+                $('#editStaffModal').modal('hide');
+                loadStaffList();  // Tải lại danh sách nhân viên sau khi cập nhật
+            } catch (error) {
+                console.error(error);
+                alert("Lỗi khi cập nhật nhân viên!");
+            }
+        };
+
+        // Hiển thị modal chỉnh sửa
+        $('#editStaffModal').modal('show');
+
+    } catch (error) {
+        console.error(error);
+        alert("Lỗi khi lấy thông tin nhân viên!");
+    }
 };
+
+
+
+
+
+
+
 
 // Hàm xóa nhân viên
 const deleteStaff = async (id) => {
@@ -97,3 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadStaffList();  // Tải danh sách nhân viên khi trang được tải
     document.getElementById("addStaffForm").addEventListener("submit", addStaff); // Lắng nghe sự kiện submit form thêm nhân viên
 });
+fetch('http://26.187.200.144:3000/getListStaff')
+    .then(response => response.json())
+    .then(data => console.log('Dữ liệu:', data))
+    .catch(error => console.error('Lỗi fetch:', error));
