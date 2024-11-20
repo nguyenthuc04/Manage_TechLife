@@ -30,7 +30,7 @@
                 <!--                title khi tắt navigation-->
             </a>
         </div>
-        <ul style="width: 350px" class="nav">
+        <ul style="" class="nav">
             <li class="nav-item profile">
                 <div class="profile-desc">
                     <div class="profile-pic">
@@ -88,11 +88,11 @@
             </li>
             <li class="nav-item menu-items">
                 <!--                link đến chức năng khác-->
-                <a class="nav-link" href="./index.html">
+                <a class="nav-link" href="./thongKeMenterMentee.html">
               <span class="menu-icon">
                 <i class="mdi mdi-speedometer"></i>
               </span>
-                    <span class="menu-title">Thống kê Menter & Mentee</span>
+                    <span class="menu-title">Menter & Mentee</span>
                 </a>
             </li>
 
@@ -116,7 +116,7 @@
 
             <li class="nav-item menu-items">
                 <!--                link đến chức năng khác-->
-                <a class="nav-link" href="./pages/forms/basic_elements.html">
+                <a class="nav-link" href="./thongKeKhoaHoc.html">
               <span class="menu-icon">
                 <i class="mdi mdi-playlist-play"></i>
               </span>
@@ -140,7 +140,7 @@
 
             <!--                link đến chức năng khác-->
             <li class="nav-item menu-items">
-                <a class="nav-link" href="./pages/charts/chartjs.html">
+                <a class="nav-link" href="./partials/staff-management.html">
               <span class="menu-icon">
                 <i class="mdi mdi-chart-bar"></i>
               </span>
@@ -150,7 +150,7 @@
 
             <li class="nav-item menu-items">
                 <!--                link đến chức năng khác-->
-                <a class="nav-link" href="./pages/icons/mdi.html">
+                <a class="nav-link" href="./thongKeKhoaHoc.html">
               <span class="menu-icon">
                 <i class="mdi mdi-contacts"></i>
               </span>
@@ -160,7 +160,7 @@
 
             <li class="nav-item menu-items">
                 <!--                link đến chức năng khác-->
-                <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+                <a class="nav-link" href="#auth" >
               <span class="menu-icon">
                 <i class="mdi mdi-security"></i>
               </span>
@@ -279,16 +279,85 @@
             <div class="content-wrapper">
                 <div class="page-header"></div>
                 <!--                    code nội dung chức năng ở đây-->
+                <h2 style="font-family: Arial,serif;font-weight: bold">Hoạt động gần đây</h2>
+                <div style="text-align: right; margin-bottom: 30px;margin-top: 10px" class="dropdown">
+                    <button onclick="SelectedView()" id="dropdownMenuButton" class="btn btn-primary dropdown-toggle" type="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span style="font-family: Arial,serif" id="textUserSelected">Chế độ xem</span>
+                    </button>
+                    <div id="dropdownMenu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a style="font-family: Arial,serif" class="dropdown-item" href="#" data-value="ngay">Ngày</a>
+                        <a style="font-family: Arial,serif" class="dropdown-item" href="#" data-value="tuan">Tuần</a>
+                        <a style="font-family: Arial,serif" class="dropdown-item" href="#" data-value="thang">Tháng</a>
+                        <a style="font-family: Arial,serif" class="dropdown-item" href="#" data-value="tuy-chinh">Tuỳ chỉnh</a>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-lg-6 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Line chart</h4>
-                                <canvas id="lineChart" style="height:250px"></canvas>
+                                <h4 class="card-title">Menter</h4>
+                                <canvas id="lineChart1" style="height:250px"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Mentee</h4>
+                                <canvas id="lineChart2" style="height:250px"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <h2 style="font-family: Arial,serif;font-weight: bold;margin-bottom: 40px">Tổng số user</h2>
+
+                <div class="row">
+                    <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12 d-flex justify-content-center align-items-center">
+                                        <div class="text-center">
+                                            <!-- Icon -->
+                                            <div style="font-size: 50px;color: red" class="mdi mdi-account"></div>
+                                            <!-- Số lượng Mentor -->
+                                            <h3 id="data-menter" class="mb-0" style="font-size: 50px;">0</h3>
+                                            <!-- Text Menter -->
+                                            <h3 style="color: red; margin-bottom: 30px;margin-top: 10px">Menter</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12 d-flex justify-content-center align-items-center">
+                                        <div class="text-center">
+                                            <!-- Icon -->
+                                            <div style="font-size: 50px;color: blue" class="mdi mdi-account"></div>
+                                            <!-- Số lượng Mentor -->
+                                            <h3 id="data-mentee" class="mb-0" style="font-size: 50px;">0</h3>
+                                            <!-- Text Menter -->
+                                            <h3 style="color: blue; margin-bottom: 30px;margin-top: 10px">Mentee</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
                 <!-- content-wrapper ends -->
             </div>
             <!-- partial:../../partials/_footer.html -->
@@ -322,6 +391,7 @@
 <!-- endinject -->
 <!-- Custom js for this page -->
 <script src="./assets/js/chart.js"></script>
+<script src="thongKeMenterMentee.js"></script>
 <!-- End custom js for this page -->
 </body>
 </html>
