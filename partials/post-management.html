@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Post Management</title>
+    <!-- Plugins and styles -->
+    <link rel="stylesheet" href="../assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../assets/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="shortcut icon" href="../assets/images/favicon.png"/>
+    <script src="post-management.js" defer></script>
+</head>
+<body>
+<div class="container-scroller">
+    <!-- Sidebar -->
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
+            <h2 style="color: white">TechLife</h2>
+        </div>
+        <ul class="nav">
+            <!-- Add other navigation items here -->
+            <li class="nav-item menu-items">
+                <a class="nav-link" href="../pages/post/post-moderation.html">
+                    <span class="menu-icon">
+                        <i class="mdi mdi-chart-bar"></i>
+                    </span>
+                    <span class="menu-title">Quản lý bài viết</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid page-body-wrapper">
+        <nav class="navbar p-0 fixed-top d-flex flex-row">
+            <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
+                <ul class="navbar-nav navbar-nav-right">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
+                            <div class="navbar-profile">
+                                <img class="img-xs rounded-circle" src="../assets/images/faces/face15.jpg" alt="">
+                                <p class="mb-0 d-none d-sm-block navbar-profile-name">Henry Klein</p>
+                                <i class="mdi mdi-menu-down d-none d-sm-block"></i>
+                            </div>
+                        </a>
+                        <!-- Profile Dropdown -->
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list">
+                            <a class="dropdown-item preview-item">
+                                <i class="mdi mdi-settings text-success"></i> Settings
+                            </a>
+                            <a class="dropdown-item preview-item">
+                                <i class="mdi mdi-key-variant"></i> Change Password
+                            </a>
+                            <a class="dropdown-item preview-item">
+                                <i class="mdi mdi-logout text-danger"></i> Logout
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <h3 class="page-title">Quản lý bài viết</h3>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Quản lý bài viết</li>
+                        </ol>
+                    </nav>
+                </div>
+
+                <!-- Posts Table -->
+                <div class="row">
+                    <div class="col-lg-12 stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Danh sách bài viết</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Tiêu đề</th>
+                                            <th>Hình ảnh</th>
+                                            <th>Lượt thích</th>
+                                            <th>Bình luận</th>
+                                            <th>Hành động</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="postTable">
+                                        <!-- Posts will be dynamically inserted here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal for Add/Edit Post -->
+                <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="postModalLabel">Thêm bài viết</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="postForm">
+                                    <div class="form-group">
+                                        <label for="postTitle">Tiêu đề</label>
+                                        <input type="text" class="form-control" id="postTitle" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="postImage">Hình ảnh</label>
+                                        <input type="text" class="form-control" id="postImage" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="postLikes">Lượt thích</label>
+                                        <input type="number" class="form-control" id="postLikes" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="postComments">Bình luận</label>
+                                        <input type="text" class="form-control" id="postComments" required>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                <button type="submit" form="postForm" class="btn btn-primary">Lưu</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <span class="text-muted d-block text-center">Copyright © TechLife 2024</span>
+            </footer>
+        </div>
+    </div>
+</div>
+
+<!-- Plugins and scripts -->
+<script src="../assets/vendors/js/vendor.bundle.base.js"></script>
+<script src="../assets/js/off-canvas.js"></script>
+<script src="../assets/js/hoverable-collapse.js"></script>
+<script src="../assets/js/misc.js"></script>
+</body>
+</html>
