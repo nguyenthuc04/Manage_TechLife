@@ -12,7 +12,7 @@ var merge = require('merge-stream');
 
 /* inject partials like sidebar and navbar */
 gulp.task('injectPartial', function () {
-    return gulp.src(["./pages/*/*.html", "./index.html"], {
+    return gulp.src(["./pages/*/*.html", "./login.html"], {
             base: "./"
         })
         .pipe(injectPartials())
@@ -58,9 +58,9 @@ gulp.task('replacePath', function () {
         .pipe(replace('src="assets/images/', 'src="../../assets/images/'))
         .pipe(replace('href="pages/', 'href="../../pages/'))
         .pipe(replace('href="documentation"', 'href="http://www.bootstrapdash.com/demo/corona-free/jquery/documentation/documentation.html"'))
-        .pipe(replace('href="index.html"', 'href="../../index.html"'))
+        .pipe(replace('href="index.html"', 'href="../../login.html"'))
         .pipe(gulp.dest('.'));
-    var replacePath2 = gulp.src('./**/index.html', {
+    var replacePath2 = gulp.src('./**/login.html', {
             base: "./"
         })
         .pipe(replace('href="documentation"', 'href="http://www.bootstrapdash.com/demo/corona-free/jquery/documentation/documentation.html"'))
