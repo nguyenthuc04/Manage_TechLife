@@ -136,7 +136,7 @@ const updateChartDataLabelMentee = (chart, newLabels, newDatasets) => {
 // Gọi API và cập nhật dữ liệu menter
 const fetchMenterCount = async () => {
     try {
-        const response = await fetch('http://192.168.0.106:3000/getListUsersByAccountType?accountType=menter'); // Đổi URL cho phù hợp
+        const response = await fetch('http://26.187.200.144:3000/getListUsersByAccountType?accountType=menter'); // Đổi URL cho phù hợp
         const data = await response.json();
 
         console.log('User List:', data.users.length);  // In ra danh sách người dùng nếu cần
@@ -151,7 +151,7 @@ const fetchMenterCount = async () => {
 // Gọi API và cập nhật dữ liệu mentee
 const fetchMenteeCount = async () => {
     try {
-        const response = await fetch('http://192.168.0.106:3000/getListUsersByAccountType?accountType=mentee'); // Đổi URL cho phù hợp
+        const response = await fetch('http://26.187.200.144:3000/getListUsersByAccountType?accountType=mentee'); // Đổi URL cho phù hợp
         const data = await response.json();
 
         console.log('User List:', data.users.length);  // In ra danh sách người dùng nếu cần

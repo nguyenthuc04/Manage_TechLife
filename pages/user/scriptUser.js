@@ -1,4 +1,4 @@
-const apiUrl = 'http://192.168.1.122:3000';
+const apiUrl = 'http://26.187.200.144:3000';
 let currentPage = 1;
 let token = localStorage.getItem('authToken');
 
