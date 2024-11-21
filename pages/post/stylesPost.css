@@ -1,6 +1,7 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f2f5;
+    background-color: #121212;
+    color: #e0e0e0;
     margin: 0;
     padding: 0;
 }
@@ -9,23 +10,24 @@ body {
     max-width: 600px;
     margin: 20px auto;
     padding: 10px;
-    background-color: #fff;
+    background-color: #1e1e1e;
     border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 h1 {
-    text-align: center;  /* Căn giữa văn bản */
-    margin-bottom: 20px;  /* Khoảng cách dưới tiêu đề */
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffffff;
 }
 
 .post-card {
-    background: #fff;
-    border: 1px solid #ddd;
+    background: #1e1e1e;
+    border: 1px solid #333;
     border-radius: 10px;
     margin-bottom: 20px;
     padding: 15px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 .post-header {
@@ -43,6 +45,7 @@ h1 {
 
 .post-header .user-info {
     font-size: 14px;
+    color: #e0e0e0;
 }
 
 .post-header .user-info .name {
@@ -56,9 +59,9 @@ h1 {
 
 .post-content {
     margin-top: 10px;
+    color: #e0e0e0;
 }
 
-/* Style cho các ảnh bài viết */
 .post-images {
     display: flex;
     flex-wrap: wrap;
@@ -90,85 +93,24 @@ h1 {
     background-color: #c0392b;
 }
 
-/*body {*/
-/*    font-family: 'Arial', sans-serif;*/
-/*    margin: 0;*/
-/*    padding: 20px;*/
-/*    background-color: #f0f2f5;*/
-/*}*/
-/*.container {*/
-/*    max-width: 900px;*/
-/*    margin: 0 auto;*/
-/*    background: #fff;*/
-/*    padding: 20px;*/
-/*    border-radius: 8px;*/
-/*    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
-/*}*/
-/*h1 {*/
-/*    text-align: center;*/
-/*    color: #333;*/
-/*}*/
-/*.post {*/
-/*    border: 1px solid #ddd;*/
-/*    border-radius: 8px;*/
-/*    margin-bottom: 20px;*/
-/*    background-color: #fff;*/
-/*    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);*/
-/*    padding: 15px;*/
-/*}*/
-/*.post-header {*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    margin-bottom: 10px;*/
-/*}*/
-/*.post-header img {*/
-/*    width: 50px;*/
-/*    height: 50px;*/
-/*    border-radius: 50%;*/
-/*    margin-right: 15px;*/
-/*}*/
-/*.post-header h3 {*/
-/*    font-size: 16px;*/
-/*    font-weight: 600;*/
-/*    color: #333;*/
-/*}*/
-/*.post-time {*/
-/*    font-size: 12px;*/
-/*    color: #888;*/
-/*    margin-left: auto;*/
-/*}*/
-/*.post-content {*/
-/*    margin: 15px 0;*/
-/*}*/
-/*.post-content img {*/
-/*    max-width: 100%;*/
-/*    border-radius: 8px;*/
-/*    margin-bottom: 10px;*/
-/*}*/
-/*.post-footer {*/
-/*    display: flex;*/
-/*    justify-content: space-between;*/
-/*    font-size: 14px;*/
-/*    color: #888;*/
-/*}*/
-/*.post-actions {*/
-/*    display: flex;*/
-/*    gap: 10px;*/
-/*}*/
-/*.post-actions button {*/
-/*    padding: 8px 15px;*/
-/*    border: none;*/
-/*    border-radius: 5px;*/
-/*    cursor: pointer;*/
-/*    font-size: 14px;*/
-/*    font-weight: bold;*/
-/*}*/
-/*.approve {*/
-/*    background-color: #4CAF50;*/
-/*    color: white;*/
-/*}*/
-/*.reject {*/
-/*    background-color: #f44336;*/
-/*    color: white;*/
-/*}*/
+/* Cố định sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px; /* Điều chỉnh theo kích thước sidebar của bạn */
+    overflow: hidden;
+    background-color: #1e1e1e; /* Màu nền của sidebar */
+    z-index: 1000; /* Đảm bảo sidebar luôn ở trên cùng */
+}
 
+/* Đặt nội dung chính để có thể cuộn */
+.main-panel {
+    margin-left: 150px; /* Điều chỉnh theo kích thước sidebar của bạn */
+    padding: 20px;
+    overflow-y: auto;
+    height: 100vh;
+    background-color: #121212; /* Màu nền của nội dung chính */
+    color: #e0e0e0; /* Màu chữ của nội dung chính */
+}

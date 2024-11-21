@@ -3,7 +3,8 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 20px;
-    background-color: #f4f4f4;
+    background-color: #121212;
+    color: #e0e0e0;
 }
 
 .container {
@@ -14,26 +15,28 @@ body {
 }
 
 h1, h2 {
-    color: #333;
+    color: #ffffff;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
+    background-color: #1e1e1e;
 }
 
 table, th, td {
-    border: 1px solid #ddd;
+    border: 1px solid #333;
 }
 
 th, td {
     text-align: left;
     padding: 12px;
+    color: #e0e0e0;
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #333;
 }
 
 input[type="text"],
@@ -42,19 +45,24 @@ input[type="email"] {
     width: 100%;
     padding: 8px;
     margin-bottom: 10px;
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+    border-radius: 4px;
 }
 
 button {
     display: inline-block;
-    background: #333;
+    background: #555;
     color: #fff;
     padding: 10px 20px;
     border: none;
     cursor: pointer;
+    border-radius: 4px;
 }
 
 button:hover {
-    background: #555;
+    background: #777;
 }
 
 .search-container {
@@ -64,6 +72,10 @@ button:hover {
 .search-container input {
     width: calc(100% - 100px);
     margin-right: 10px;
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+    border-radius: 4px;
 }
 
 .pagination {
@@ -73,13 +85,40 @@ button:hover {
 
 .pagination button {
     margin: 0 10px;
+    background: #555;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
 }
 
 .stats {
-    background: #fff;
+    background: #1e1e1e;
     padding: 20px;
     margin-top: 20px;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    color: #e0e0e0;
 }
 
+/* Cố định sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px; /* Điều chỉnh theo kích thước sidebar của bạn */
+    overflow: hidden;
+    background-color: #1e1e1e; /* Màu nền của sidebar */
+    z-index: 1000; /* Đảm bảo sidebar luôn ở trên cùng */
+}
+
+/* Đặt nội dung chính để có thể cuộn */
+.main-panel {
+    margin-left: 150px; /* Điều chỉnh theo kích thước sidebar của bạn */
+    padding: 20px;
+    overflow-y: auto;
+    height: 100vh;
+    background-color: #121212; /* Màu nền của nội dung chính */
+    color: #e0e0e0; /* Màu chữ của nội dung chính */
+}

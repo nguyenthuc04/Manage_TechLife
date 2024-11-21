@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>TechLife Admin</title>
-    <link rel="stylesheet" href="stylesPost.css">
+    <link rel="stylesheet" href="stylesUser.css">
     <!-- plugins:css -->
     <link rel="stylesheet" href="../../assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="../../assets/vendors/css/vendor.bundle.base.css">
@@ -23,7 +23,7 @@
     <!-- End layout styles -->
     <link rel="shortcut icon" href="../../assets/images/logo-web.jpg"/>
 </head>
-<body onload="fetchPosts()">
+<body>
 <div class="container-scroller">
     <!-- partial:partials/_sidebar.html -->
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
@@ -69,7 +69,7 @@
             </li>
 
             <li class="nav-item menu-items">
-                <a class="nav-link" href=" ">
+                <a class="nav-link" href="                              ">
               <span class="menu-icon">
                 <i class="mdi mdi-playlist-play"></i>
               </span>
@@ -157,11 +157,49 @@
         <div class="main-panel">
             <div class="content-wrapper">
 
-                <div id="post-container">
-                    <h1>Kiểm duyệt bài viết</h1>
-                    <div id="post-list">
-                        <!-- Dữ liệu bài viết sẽ được thêm vào đây -->
+                <div class="container">
+                    <h1>Quản lý Người dùng</h1>
+                    <div class="search-container">
+                        <input type="text" id="searchInput" placeholder="Tìm kiếm người dùng">
+                        <button onclick="fetchUsers()">Tìm kiếm</button>
                     </div>
+                    <table id="userTable">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tài khoản</th>
+                            <th>Tên</th>
+                            <th>Biệt danh</th>
+                            <th>Loại tài khoản</th>
+                            <th>Hành động</th>
+                        </tr>
+                        </thead>
+                        <tbody id="userTableBody">
+                        <!-- Dữ liệu người dùng sẽ được thêm vào đây -->
+                        </tbody>
+                    </table>
+                    <div class="pagination">
+                        <button onclick="prevPage()">Trang trước</button>
+                        <span id="currentPage">1</span>
+                        <button onclick="nextPage()">Trang sau</button>
+                    </div>
+                    <div class="stats">
+                        <h2>Thống kê</h2>
+                        <p>Tổng số người dùng: <span id="totalUsers">0</span></p>
+                        <ul id="accountTypes">
+                            <!-- Thống kê loại tài khoản sẽ được thêm vào đây -->
+                        </ul>
+                    </div>
+                    <h2 id="formTitle">Thêm Người dùng</h2>
+                    <form id="userForm">
+                        <input type="hidden" id="userId">
+                        <input type="text" id="account" placeholder="Tài khoản" required>
+                        <input type="password" id="password" placeholder="Mật khẩu" required>
+                        <input type="text" id="name" placeholder="Tên" required>
+                        <input type="text" id="nickname" placeholder="Biệt danh" required>
+                        <input type="text" id="accountType" placeholder="Loại tài khoản" required>
+                        <button type="submit">Lưu</button>
+                    </form>
                 </div>
 
             </div>
@@ -180,7 +218,7 @@
     </div>
     <!-- page-body-wrapper ends -->
 </div>
-<script src="scriptPost.js"></script>
+<script src="scriptUser.js"></script>
 <!-- container-scroller -->
 <!-- plugins:js -->
 <script src="../../assets/vendors/js/vendor.bundle.base.js"></script>

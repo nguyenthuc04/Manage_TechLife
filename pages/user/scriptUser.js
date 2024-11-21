@@ -1,16 +1,11 @@
-const apiUrl = 'http://26.187.200.144:3000';
+const apiUrl = 'http://192.168.1.122:3000';
 let currentPage = 1;
-let token = localStorage.getItem('authToken');
 
 // Lấy danh sách người dùng
 async function fetchUsers() {
     try {
         const search = document.getElementById('searchInput').value;
-        const response = await fetch(`${apiUrl}/?search=${search}&page=${currentPage}&limit=10`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+        const response = await fetch(`${apiUrl}/getListUserQT/?search=${search}&page=${currentPage}&limit=10`);
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -48,11 +43,7 @@ async function fetchUsers() {
 // Lấy thống kê người dùng
 async function fetchStats() {
     try {
-        const response = await fetch(`${apiUrl}/stats`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+        const response = await fetch(`${apiUrl}/stats`);
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -85,17 +76,27 @@ async function submitForm(event) {
     const nickname = document.getElementById('nickname').value;
     const accountType = document.getElementById('accountType').value;
 
-    const payload = {account, password, name, nickname, accountType};
-
+    const payload = {
+        account,
+        password,
+        birthday: new Date().toISOString().split("T")[0],
+        name,
+        nickname,
+        bio: "",
+        avatar: "data:image/png;base64,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",
+        accountType,
+        following: [],
+        followers: [],
+        posts: []
+    };
     try {
-        const url = id ? `${apiUrl}/${id}` : apiUrl;
+        const url = id ? `${apiUrl}/updateUserQT/${id}` : `${apiUrl}/createUserQT`;
         const method = id ? 'PUT' : 'POST';
 
         const response = await fetch(url, {
             method: method,
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(payload),
         });
@@ -103,6 +104,7 @@ async function submitForm(event) {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
+        alert("Cập nhập người dùng thêm thành công!");
 
         resetForm();
         fetchUsers();
@@ -116,11 +118,8 @@ async function submitForm(event) {
 // Hiển thị dữ liệu người dùng để chỉnh sửa
 async function editUser(id) {
     try {
-        const response = await fetch(`${apiUrl}/${id}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+        const response = await fetch(`${apiUrl}/getUserQT/${id}`);
+
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -145,7 +144,7 @@ async function editUser(id) {
 async function deleteUser(id) {
     if (confirm('Bạn có chắc chắn muốn xóa người dùng này?')) {
         try {
-            const response = await fetch(`${apiUrl}/${id}`, {
+            const response = await fetch(`${apiUrl}/deleteUserQT/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -196,29 +195,4 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('userForm').addEventListener('submit', submitForm);
 });
 
-// Hàm đăng nhập (giả định)
-async function login(username, password) {
-    try {
-        const response = await fetch(`${apiUrl}/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({username, password}),
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        token = data.token;
-        localStorage.setItem('authToken', token);
-        fetchUsers();
-        fetchStats();
-    } catch (error) {
-        console.error('Error logging in:', error);
-        alert('Lỗi khi đăng nhập. Vui lòng thử lại.');
-    }
-}
 

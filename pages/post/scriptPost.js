@@ -61,7 +61,7 @@
 // // Fetch posts when the page loads
 // fetchPosts();
 
-const API_URL = 'http://26.187.200.144:3000/api/posts';
+const API_URL = 'http://192.168.1.122:3000/api/posts';
 
 // Lấy danh sách bài viết
 function fetchPosts() {
