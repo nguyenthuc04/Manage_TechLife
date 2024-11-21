@@ -1,10 +1,11 @@
 // URL của API (thay đổi nếu cần)
-const API_URL = "http://26.187.200.144:3000";
-
+// const API_URL = "http://26.187.200.144:3000";
 // Hàm tải danh sách nhân viên
+import { API_URL_TONG } from './ip.js';
+
 const loadStaffList = async () => {
     try {
-        const response = await fetch(`${API_URL}/getListStaff`);
+        const response = await fetch(`${API_URL_TONG}/getListStaff`);
         if (!response.ok) throw new Error("Không thể tải danh sách nhân viên.");
 
         const staffList = await response.json();
@@ -45,7 +46,7 @@ const addStaff = async (event) => {
     const position = document.getElementById("staffPosition").value;
 
     try {
-        const response = await fetch(`${API_URL}/createStaff`, {
+        const response = await fetch(`${API_URL_TONG}/createStaff`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -75,7 +76,7 @@ const addStaff = async (event) => {
 const editStaff = async (id) => {
     try {
         // Lấy thông tin nhân viên cần chỉnh sửa từ API
-        const response = await fetch(`${API_URL}/getStaff/${id}`);
+        const response = await fetch(`${API_URL_TONG}/getStaff/${id}`);
         if (!response.ok) throw new Error("Không thể lấy thông tin nhân viên!");
 
         const staff = await response.json();
@@ -95,7 +96,7 @@ const editStaff = async (id) => {
             const position = document.getElementById("editStaffPosition").value;
 
             try {
-                const response = await fetch(`${API_URL}/updateStaff/${id}`, {
+                const response = await fetch(`${API_URL_TONG}/updateStaff/${id}`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
@@ -137,7 +138,7 @@ const deleteStaff = async (id) => {
     if (!confirm("Bạn có chắc chắn muốn xóa nhân viên này không?")) return;
 
     try {
-        const response = await fetch(`${API_URL}/deleteStaff/${id}`, { method: "DELETE" });
+        const response = await fetch(`${API_URL_TONG}/deleteStaff/${id}`, { method: "DELETE" });
         if (!response.ok) throw new Error("Không thể xóa nhân viên.");
         alert("Nhân viên đã được xóa thành công!");
         loadStaffList();  // Tải lại danh sách nhân viên sau khi xóa
@@ -152,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadStaffList();  // Tải danh sách nhân viên khi trang được tải
     document.getElementById("addStaffForm").addEventListener("submit", addStaff); // Lắng nghe sự kiện submit form thêm nhân viên
 });
-fetch('http://26.187.200.144:3000/getListStaff')
-    .then(response => response.json())
-    .then(data => console.log('Dữ liệu:', data))
-    .catch(error => console.error('Lỗi fetch:', error));
+// fetch('http://26.187.200.144:3000/getListStaff')
+//     .then(response => response.json())
+//     .then(data => console.log('Dữ liệu:', data))
+//     .catch(error => console.error('Lỗi fetch:', error));

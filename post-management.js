@@ -1,9 +1,8 @@
-const API_URL = "http://26.187.200.144:3000";
 
 // Load the list of posts
 const loadPostsList = async () => {
     try {
-        const response = await fetch(`${API_URL}/getListPosts`);
+        const response = await fetch(`${API_URL_TONG}/getListPosts`);
         if (!response.ok) throw new Error("Không thể tải danh sách bài viết.");
 
         const postsList = await response.json();
@@ -37,7 +36,7 @@ const addPost = async (event) => {
     const content = document.getElementById("postContent").value;
 
     try {
-        const response = await fetch(`${API_URL}/createPost`, {
+        const response = await fetch(`${API_URL_TONG}/createPost`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -69,7 +68,7 @@ const deletePost = async (id) => {
     if (!confirm("Bạn có chắc chắn muốn xóa bài viết này không?")) return;
 
     try {
-        const response = await fetch(`${API_URL}/deletePost/${id}`, { method: "DELETE" });
+        const response = await fetch(`${API_URL_TONG}/deletePost/${id}`, { method: "DELETE" });
         if (!response.ok) throw new Error("Không thể xóa bài viết.");
         alert("Bài viết đã được xóa thành công!");
         loadPostsList();  // Reload posts list after deleting
