@@ -268,13 +268,30 @@
         <!-- partial -->
         <div class="main-panel">
             <div class="content-wrapper">
-                <div class="page-header"></div>
+                <div class="page-header">
+                    <h2 style="font-family: Arial,serif;font-weight: bold">Đổi mật khẩu</h2>
+                </div>
 
                 <!--                    code nội dung chức năng ở đây-->
 
-                <h2 style="font-family: Arial,serif;font-weight: bold">Đổi mật khẩu</h2>
 
+                <form id="changePasswordForm" style="align-items: center;justify-content: center">
 
+                    <div class="mb-3">
+                        <label for="pwd">Password:</label>
+                        <input style="color: white;width: 50%" type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
+                    </div>
+                    <div class="mb-3">
+                        <label for="pwd">New Password:</label>
+                        <input style="color: white;width: 50%" type="password" class="form-control" id="npwd" placeholder="Enter new password" name="npswd">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Xác nhận</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
 
 
                 <!-- content-wrapper ends -->

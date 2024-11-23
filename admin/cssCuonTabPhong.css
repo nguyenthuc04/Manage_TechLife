@@ -1,0 +1,20 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100px;
+    overflow: hidden;
+    background-color: #0b0000; /* Màu nền của sidebar */
+    z-index: 1000; /* Đảm bảo sidebar luôn ở trên cùng */
+}
+
+/* Đặt nội dung chính để có thể cuộn */
+.main-panel {
+    margin-left: 50px; /* Điều chỉnh theo kích thước sidebar của bạn */
+    padding: 70px 5px 20px 70px;
+    overflow-y: auto;
+    height: 100vh;
+    background-color: #0b0000; /* Màu nền của nội dung chính */
+    color: #e0e0e0; /* Màu chữ của nội dung chính */
+}
