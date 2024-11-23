@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>TechLife | Thống kê doanh thu</title>
     <!-- plugins:css -->
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="../../assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="../../assets/vendors/css/vendor.bundle.base.css">
     <!-- endinject -->
@@ -81,8 +82,7 @@
                 <!--                link đến chức năng khác-->
                 <a class="nav-link" href="../../staff/kiemDuyetThanhToan.html">
               <span class="menu-icon">
-                <i class="mdi mdi-wallet
-"></i>
+                <i class="mdi mdi-wallet"></i>
               </span>
                     <span class="menu-title">Kiểm duyệt thanh toán</span>
                 </a>
@@ -270,13 +270,41 @@
             <div class="content-wrapper">
                 <div class="page-header"></div>
 
-                <!--                    code nội dung chức năng ở đây-->
-
-                <h2 style="font-family: Arial,serif;font-weight: bold">Thống kê doanh thu</h2>
-
-
-
-
+                <div class="container">
+                    <h1>Thống Kê Doanh Thu Nâng Cấp Mentor</h1>
+                    <div class="grid">
+                        <div class="card">
+                            <h3>Tổng số Mentor</h3>
+                            <p id="totalMentors"></p>
+                        </div>
+                        <div class="card">
+                            <h3>Giá nâng cấp</h3>
+                            <p id="upgradePrice"></p>
+                        </div>
+                        <div class="card">
+                            <h3>Tổng doanh thu</h3>
+                            <p id="totalRevenue"></p>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <h2>Tổng doanh thu</h2>
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                    <h2>Danh sách Mentor</h2>
+                    <div class="overflow-x-auto">
+                        <table id="mentorTable">
+                            <thead>
+                            <tr>
+                                <th>Tên</th>
+                                <th>Nickname</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- Dữ liệu sẽ được thêm vào đây bằng JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 <!-- content-wrapper ends -->
             </div>
             <!-- partial:../../partials/_footer.html -->
@@ -294,6 +322,8 @@
     </div>
     <!-- page-body-wrapper ends -->
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 <!-- container-scroller -->
 <!-- plugins:js -->
 <script src="../../assets/vendors/js/vendor.bundle.base.js"></script>
@@ -311,6 +341,7 @@
 <!-- Custom js for this page -->
 <script src="../../assets/js/chart.js"></script>
 <script src="./thongKeDoanhThu.js"></script>
+<script src="../../config.js"></script>
 <!-- End custom js for this page -->
 </body>
 </html>

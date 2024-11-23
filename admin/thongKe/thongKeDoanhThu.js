@@ -48,3 +48,117 @@ const logout = () => {
         window.location.href = "../../login.html"; // Đổi đường dẫn đến trang đăng nhập của bạn
     }
 };
+
+const ip = localStorage.getItem('ipAddress');
+const API_URL = `http://${ip}:3000`;
+let revenueChart;
+
+async function fetchMentorStatistics() {
+    try {
+        const response = await fetch(`${API_URL}/mentor-statistics`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching mentor statistics:', error);
+        return null;
+    }
+}
+
+function populateTable(data) {
+    const tableBody = document.querySelector('#mentorTable tbody');
+    tableBody.innerHTML = ''; // Clear existing rows
+    data.mentors.forEach(mentor => {
+        const row = tableBody.insertRow();
+        const nameCell = row.insertCell(0);
+        const nicknameCell = row.insertCell(1);
+        nameCell.textContent = mentor.name;
+        nicknameCell.textContent = mentor.nickname;
+    });
+}
+
+function createRevenueChart(data) {
+    const ctx = document.getElementById('revenueChart').getContext('2d');
+    if (revenueChart) {
+        revenueChart.destroy();
+    }
+    revenueChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Tổng doanh thu'],
+            datasets: [{
+                label: 'Doanh thu từ nâng cấp Mentor',
+                data: [data.totalRevenue],
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    min: 0,
+                    max: data.totalRevenue,
+                    ticks: {
+                        callback: function(value) {
+                            return value.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                        },
+                        stepSize: Math.ceil(data.totalRevenue / 5)
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(context.parsed.y);
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+async function updateDashboard() {
+    const data = await fetchMentorStatistics();
+    if (data) {
+        document.getElementById('totalMentors').textContent = data.totalMentors;
+        document.getElementById('upgradePrice').textContent = data.upgradePrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        document.getElementById('totalRevenue').textContent = data.totalRevenue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        populateTable(data);
+        createRevenueChart(data);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', updateDashboard);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
