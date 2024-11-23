@@ -48,7 +48,7 @@ btnLogin.addEventListener('click', async (e) => {
 const Login = async (account, password) => {
     try {
         // Gửi yêu cầu tới backend
-        const response = await fetch('http://192.168.1.31:3000/loginweb', {
+        const response = await fetch('http://26.187.200.144:3000/loginweb', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
