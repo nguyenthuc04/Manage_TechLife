@@ -48,3 +48,39 @@ const logout = () => {
         window.location.href = "./login.html"; // Đổi đường dẫn đến trang đăng nhập của bạn
     }
 };
+
+
+    document.getElementById("changePasswordForm").addEventListener("submit", async (event) => {
+        event.preventDefault(); // Ngăn không reload trang
+
+        const oldPassword = document.getElementById("pwd").value;
+        const newPassword = document.getElementById("npwd").value;
+
+        try {
+            // Gửi yêu cầu đến API
+            const response = await fetch('http://192.168.0.106:3000/changepassword', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ oldPassword, newPassword }),
+            });
+
+            // const data = await response.json();
+
+            // Hiển thị thông báo dựa vào phản hồi
+            if (response.ok) {
+                alert("Đổi mật khẩu thành công")
+            } else {
+                const errorData = await response.json();
+                console.log(errorData)
+                alert("Đổi mật khẩu thất bại")
+            }
+        } catch (error) {
+            console.error("Lỗi trong quá trình đổi mật khẩu:", error);
+            alert("Có lỗi xảy ra")
+        }
+    });
+
+

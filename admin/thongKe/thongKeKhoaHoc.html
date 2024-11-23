@@ -8,6 +8,7 @@
     <!-- plugins:css -->
     <link rel="stylesheet" href="../../assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="../../assets/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="../cssCuonTabPhong.css">
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <!-- End Plugin css for this page -->
@@ -100,7 +101,7 @@
 
             <li id="idKDmenter" class="nav-item menu-items">
                 <!--                link đến chức năng khác-->
-                <a class="nav-link" href="../../staff/kiemDuyetMenter.html">
+                <a class="nav-link" href="../../staff/kiemDuyetMentor.html">
               <span class="menu-icon">
                 <i class="mdi mdi-speedometer"></i>
               </span>
@@ -272,7 +273,102 @@
 
                 <!--                    code nội dung chức năng ở đây-->
 
-                <h2 style="font-family: Arial,serif;font-weight: bold">Thống kê khoá học</h2>
+
+
+                <!--                    code nội dung chức năng ở đây-->
+                <h2 style="font-family: Arial,serif;font-weight: bold;margin-bottom: 40px">Tổng số khoá học</h2>
+
+                <div class="row">
+                    <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12 d-flex justify-content-center align-items-center">
+                                        <div class="text-center">
+                                            <!-- Icon -->
+                                            <div style="font-size: 50px;color: yellow"
+                                                 class="icon-lg mdi mdi-wallet-travel"></div>
+                                            <!-- Số lượng Mentor -->
+                                            <h3 id="data-khoahoc-all" class="mb-0" style="font-size: 50px;">0</h3>
+
+                                            <h4 style="margin-top: 15px;font-family: Arial,serif">Tất cả</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12 d-flex justify-content-center align-items-center">
+                                        <div class="text-center">
+                                            <!-- Icon -->
+                                            <div style="font-size: 50px;color: blue"
+                                                 class="icon-lg mdi mdi-wallet-travel"></div>
+                                            <!-- Số lượng Mentor -->
+                                            <h3 id="data-khoahoc-danghd" class="mb-0" style="font-size: 50px;">0</h3>
+
+                                            <h4 style="margin-top: 15px;font-family: Arial,serif">Đang hoạt động</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12 d-flex justify-content-center align-items-center">
+                                        <div class="text-center">
+                                            <!-- Icon -->
+                                            <div style="font-size: 50px;color: red"
+                                                 class="icon-lg mdi mdi-wallet-travel"></div>
+                                            <!-- Số lượng Mentor -->
+                                            <h3 id="data-khoahoc-dakt" class="mb-0" style="font-size: 50px;">0</h3>
+
+                                            <h4 style="margin-top: 15px;font-family: Arial,serif">Đã kết thúc</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <h2 style="font-family: Arial,serif;font-weight: bold;margin-top: 20px">Thống kê khoá học</h2>
+                <div style="text-align: right; margin-bottom: 30px;margin-top: 10px" class="dropdown">
+                    <button id="dropdownMenuButton" class="btn btn-primary dropdown-toggle" type="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span style="font-family: Arial,serif" id="textUserSelected2">Chế độ xem</span>
+                    </button>
+                    <div id="dropdownMenu2" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a style="font-family: Arial,serif" class="dropdown-item" href="#" data-value="ngay_kh">Ngày</a>
+                        <a style="font-family: Arial,serif" class="dropdown-item" href="#" data-value="tuan_kh">Tuần</a>
+                        <a style="font-family: Arial,serif" class="dropdown-item" href="#"
+                           data-value="thang_kh">Tháng</a>
+                        <a style="font-family: Arial,serif" class="dropdown-item" href="#" data-value="tuy-chinh_kh">Tuỳ
+                            chỉnh</a>
+                    </div>
+                </div>
+
+                <div class="row justify-content-start">
+                    <div class="col-lg-6 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 style="font-family: Arial,serif" class="card-title">Khoá học được tạo</h4>
+                                <canvas id="lineChart1_KH" ></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
 
 
 
