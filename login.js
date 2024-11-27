@@ -62,7 +62,11 @@ const Login = async (account, password) => {
             localStorage.setItem('loginMessage', data.message);
             localStorage.setItem('user', JSON.stringify(data.user)); // Lưu thông tin user
             localStorage.setItem('token', data.token); // Lưu token JWT
-            window.location.href = "dashboard.html"; // Chuyển tới trang dashboard
+            if(data.user.accountType === "staff" || data.user.accountType === "admin") {
+                window.location.href = "dashboard.html"; // Chuyển tới trang dashboard
+            } else{
+                alert("Bạn không có quyền để truy cập");
+            }
         } else {
             alert(data.message); // Sai tài khoản hoặc mật khẩu
         }

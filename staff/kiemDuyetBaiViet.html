@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>TechLife | Kiểm duyệt bài viết</title>
+    <link rel="stylesheet" href="stylesPost.css">
     <!-- plugins:css -->
     <link rel="stylesheet" href="../assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="../assets/vendors/css/vendor.bundle.base.css">
@@ -81,8 +82,7 @@
                 <!--                link đến chức năng khác-->
                 <a class="nav-link" href="../staff/kiemDuyetThanhToan.html">
               <span class="menu-icon">
-                <i class="mdi mdi-wallet
-"></i>
+                <i class="mdi mdi-wallet"></i>
               </span>
                     <span class="menu-title">Kiểm duyệt thanh toán</span>
                 </a>
@@ -100,7 +100,7 @@
 
             <li id="idKDmenter" class="nav-item menu-items">
                 <!--                link đến chức năng khác-->
-                <a class="nav-link" href="../staff/kiemDuyetMenter.html">
+                <a class="nav-link" href="kiemDuyetMentor.html">
               <span class="menu-icon">
                 <i class="mdi mdi-speedometer"></i>
               </span>
@@ -270,13 +270,22 @@
             <div class="content-wrapper">
                 <div class="page-header"></div>
 
-                <!--                    code nội dung chức năng ở đây-->
-
-                <h2 style="font-family: Arial,serif;font-weight: bold">Kiểm duyệt bài viết</h2>
-
-
-
-
+                <div id="post-container">
+                    <h1>Kiểm duyệt bài viết</h1>
+                    <div class="tab-container">
+                        <button id="pending-tab" class="tab-button active">Bài viết chờ duyệt</button>
+                        <button id="accepted-tab" class="tab-button">Bài viết đã chấp nhận</button>
+                    </div>
+                    <div id="post-list" class="tab-content active">
+                        <!-- Dữ liệu bài viết cần kiểm duyệt sẽ được thêm vào đây -->
+                    </div>
+                    <div id="accepted-posts-container" class="tab-content">
+                        <h2>Danh sách bài viết đã chấp nhận</h2>
+                        <div id="accepted-posts-list">
+                            <!-- Dữ liệu bài viết đã chấp nhận sẽ được thêm vào đây -->
+                        </div>
+                    </div>
+                </div>
                 <!-- content-wrapper ends -->
             </div>
             <!-- partial:../../partials/_footer.html -->
@@ -311,6 +320,7 @@
 <!-- Custom js for this page -->
 <script src="../assets/js/chart.js"></script>
 <script src="./kiemDuyetBaiViet.js"></script>
+<script src="/config.js"></script>
 <!-- End custom js for this page -->
 </body>
 </html>
