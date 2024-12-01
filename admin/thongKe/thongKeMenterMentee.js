@@ -2,24 +2,55 @@ const user = JSON.parse(localStorage.getItem('user'));
 const token = localStorage.getItem('token');
 const dropdownMenu = document.getElementById("dropdownMenu");
 const resultDisplay = document.getElementById("textUserSelected");
-var chart1
-var chart2
+let chart1
+let chart2
 const dataMentee = document.getElementById("data-mentee");
-const dataMenter = document.getElementById("data-menter");
+const dataMentor = document.getElementById("data-mentor");
+let resultWeek;
+let inputStartDate = document.getElementById("startDate")
+let inputEndDate = document.getElementById("endDate")
+
+async function fetchCountUserByLastLog(filterType, accountType, startDate = null, endDate = null) {
+    try {
+        let url = `http://192.168.0.126:3000/getUserByLastLog?filterType=${filterType}&accountType=${accountType}`;
+
+        // Nếu là chế độ tùy chỉnh, thêm tham số startDate và endDate vào URL
+        if (filterType === "custom" && startDate && endDate) {
+            url += `&startDate=${startDate}&endDate=${endDate}`;
+            console.log(url)
+        }
+
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error(`API call failed with status: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        if (result && result.data) {
+            return result.data; // Trả về dữ liệu từ API
+        } else {
+            throw new Error('API response does not contain expected data');
+        }
+    } catch (error) {
+        console.error('Lỗi khi gọi API:', error.message);
+    }
+}
 
 if (!user || !token) {
     // Nếu không có user hoặc token, chuyển hướng về login
     window.location.href = "../../login.html";
 } else {
     // Nếu có user, hiển thị thông tin người dùng
-    console.log(user); // Thông tin người dùng
+    // console.log(user); // Thông tin người dùng
     document.getElementById('user-name').innerHTML = user.name;
     document.getElementById('name-user-2').innerHTML = user.account;
     document.getElementById("profileImage").src = user.avatar
     document.getElementById("typeAccount").innerHTML = user.accountType
 }
 
-if(user.accountType === "staff") {
+if (user.accountType === "staff") {
     document.getElementById("idTKmenter_mentee").style.display = "none"
     document.getElementById("idTKdoanhthu").style.display = "none"
     document.getElementById("idTKkhoahoc").style.display = "none"
@@ -31,7 +62,7 @@ if(user.accountType === "staff") {
     document.getElementById("titleQL").style.display = "none"
 }
 
-if(user.accountType === "admin") {
+if (user.accountType === "admin") {
     document.getElementById("idKDreel").style.display = "none"
     document.getElementById("idKDthanhtoan").style.display = "none"
     document.getElementById("idKDmenter").style.display = "none"
@@ -62,14 +93,14 @@ document.addEventListener("DOMContentLoaded", function () {
     chart1 = new Chart(ctx1, {
         type: 'line',
         data: {
-            labels: [],
+            labels: ["Hôm nay", "Ngày mai"],
             datasets: []
         },
         options: {
-            responsive: true,
+            // responsive: true,
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
                 }
             }
         }
@@ -80,131 +111,162 @@ document.addEventListener("DOMContentLoaded", function () {
     chart2 = new Chart(ctx2, {
         type: 'line',
         data: {
-            labels: [],
+            labels: ["Hôm nay", "Ngày mai"],
             datasets: []
         },
         options: {
-            responsive: true,
+            // responsive: true,
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
                 }
             }
         }
     });
-
-
 });
 
-const SelectedView = () => {
-    // Gắn sự kiện click vào từng item
+// Hàm lấy dữ liệu và định dạng biểu đồ
+async function fetchAndFormatData(filterType, userType) {
+    const data = await fetchCountUserByLastLog(filterType, userType);
+    return data.map(item => ({
+        date: formatDate(item.date),
+        count: item.users.length,
+    }));
+}
+
+// Hàm cập nhật biểu đồ
+function updateChart(chart, data) {
+    const labels = data.map(item => item.date);
+    const counts = data.map(item => item.count);
+
+    if (counts.length === 1) {
+        counts.push(0); // Thêm một điểm giả với giá trị 0 để tạo không gian trên biểu đồ
+        labels.push("");  // Thêm label trống cho điểm giả
+    }
+
+    updateChartDataLabel(chart, labels);
+    updateChartData(chart, [
+        {
+            label: 'Số lượng',
+            data: counts,
+            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderWidth: 1,
+        },
+    ]);
+}
+
+// Hàm xử lý sự kiện hiển thị biểu đồ theo tùy chọn
+async function handleViewSelection(selectedValue, countData) {
+    switch (selectedValue) {
+        case "ngay": {
+            document.getElementById("form_date_custom").style.display = "none";
+            const mentorData = await fetchAndFormatData("day", "mentor");
+            const menteeData = await fetchAndFormatData("day", "mentee");
+
+            updateChart(chart1, mentorData);
+            updateChart(chart2, menteeData);
+            break;
+        }
+        case "tuan": {
+            document.getElementById("form_date_custom").style.display = "none";
+            const mentorData = await fetchAndFormatData("week", "mentor");
+            const menteeData = await fetchAndFormatData("week", "mentee");
+
+            updateChart(chart1, mentorData);
+            updateChart(chart2, menteeData);
+            break;
+        }
+        case "thang": {
+            document.getElementById("form_date_custom").style.display = "none";
+            const mentorData = await fetchAndFormatData("month", "mentor");
+            const menteeData = await fetchAndFormatData("month", "mentee");
+
+            updateChart(chart1, mentorData);
+            updateChart(chart2, menteeData);
+            break;
+        }
+        case "tuy-chinh": {
+            document.getElementById("form_date_custom").style.display = "block";
+
+            document.getElementById("submitButton").addEventListener("click", async () => {
+                const startDate = document.getElementById("startDate").value;
+                const endDate = document.getElementById("endDate").value;
+
+                if (!startDate || !endDate) {
+                    alert("Vui lòng chọn đầy đủ ngày bắt đầu và ngày kết thúc!");
+                    return;
+                }
+
+                const mentorData = await fetchCountUserByLastLog("custom", "mentor", startDate, endDate);
+                const menteeData = await fetchCountUserByLastLog("custom", "mentee", startDate, endDate);
+
+                const customMentorData = mentorData.map(item => ({
+                    date: formatDate(item.date),
+                    count: item.users.length,
+                }));
+                const customMenteeData = menteeData.map(item => ({
+                    date: formatDate(item.date),
+                    count: item.users.length,
+                }));
+
+                updateChart(chart1, customMentorData);
+                updateChart(chart2, customMenteeData);
+            });
+            break;
+        }
+        default:
+            console.error("Không xác định chế độ xem");
+    }
+}
+
+// Hàm xử lý tổng thể
+async function SelectedView() {
+    const countMenteeToday = await fetchAndFormatData("day", "mentee");
+    const countMentorToday = await fetchAndFormatData("day", "mentor");
+    const countMenteeWeek = await fetchAndFormatData("week", "mentee");
+    const countMentorWeek = await fetchAndFormatData("week", "mentor");
+
+    const countData = {
+        day: { mentor: countMentorToday, mentee: countMenteeToday },
+        week: { mentor: countMentorWeek, mentee: countMenteeWeek },
+    };
+
     dropdownMenu.addEventListener("click", function (event) {
-        // Kiểm tra xem người dùng click vào item nào
         const target = event.target;
 
-        // Nếu item có class "dropdown-item", lấy dữ liệu
         if (target.classList.contains("dropdown-item")) {
             const selectedValue = target.getAttribute("data-value");
             const selectedText = target.textContent.trim();
 
             resultDisplay.textContent = `Chế độ xem: ${selectedText}`;
-
-            if (selectedValue === "ngay") {
-                updateChartDataLabelMenter(chart1,["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"]);
-                updateChartDataMenter(chart1, [
-                    {
-                        label: 'Số lượng',
-                        data: [1, 2, 3,2,1],
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderWidth: 1
-                    }
-                ]);
-
-                updateChartDataLabelMentee(chart2,["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"]);
-                updateChartDataMentee(chart2, [
-                    {
-                        label: 'Số lượng',
-                        data: [1, 2, 3,2,1],
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderWidth: 1
-                    }
-                ]);
-                // const mentorCount = 60; // Số lượng mentor
-                // const menteeCount = 60; // Số lượng mentee
-                // updateDoughnutData(mentorCount, menteeCount);
-
-                // updateChartDataLabelMentee(chart2,["Hôm qua","Hôm nay"])
-                // Gọi hàm fetch dữ liệu
-                // fetchDataMenter(chart1);
-                // fetchMenteeCount()
-            } else if (selectedValue === "tuan") {
-                updateChartDataLabelMenter(chart1,["1","2","3","4","5","6","7"])
-                // updateChartDataLabelMentee(chart2,["1","2","3","4","5","6","7"])
-            } else if (selectedValue === "thang") {
-
-            } else if (selectedValue === "tuy-chinh") {
-
-            }
-
-            // Gọi API hoặc thực hiện hành động khác ở đây
+            handleViewSelection(selectedValue, countData);
         }
     });
 }
 
 
-const updateChartDataMenter = (chart, newDatasets) => {
+
+
+const updateChartData = (chart, newDatasets) => {
     // Cập nhật datasets
     chart.data.datasets = newDatasets;
     // Cập nhật lại biểu đồ
     chart.update();
 };
 
-const updateChartDataMentee = (chart, newDatasets) => {
-    // Cập nhật datasets
-    chart.data.datasets = newDatasets;
-    // Cập nhật lại biểu đồ
-    chart.update();
-};
-
-const updateChartDataLabelMenter = (chart, newLabels) => {
+const updateChartDataLabel = (chart, newLabels, newDatasets) => {
     // Cập nhật labels
     chart.data.labels = newLabels;
     // Cập nhật lại biểu đồ
     chart.update();
 };
-const updateChartDataLabelMentee = (chart, newLabels, newDatasets) => {
-    // Cập nhật labels
-    chart.data.labels = newLabels;
-    // Cập nhật lại biểu đồ
-    chart.update();
-};
-
-
-// Gọi API và cập nhật dữ liệu menter
-const fetchMenterCount = async () => {
-    try {
-        const response = await fetch('http://192.168.1.31:3000/getListUsersByAccountType?accountType=menter'); // Đổi URL cho phù hợp
-        const data = await response.json();
-
-        console.log('User List:', data.users.length);  // In ra danh sách người dùng nếu cần
-        // updateChartDataMenter(chart1,data.users.length)
-        return data.users.length
-    } catch (error) {
-        console.error('Lỗi khi gọi API:', error);
-    }
-};
-
 
 // Gọi API và cập nhật dữ liệu mentee
-const fetchMenteeCount = async () => {
+const fetchUserCount = async (type) => {
     try {
-        const response = await fetch('http://192.168.1.31:3000/getListUsersByAccountType?accountType=mentee'); // Đổi URL cho phù hợp
+        const response = await fetch(`http://192.168.0.126:3000/getListUsersByAccountType?accountType=${type}`); // Đổi URL cho phù hợp
         const data = await response.json();
-
-        console.log('User List:', data.users.length);  // In ra danh sách người dùng nếu cần
-        // updateChartDataMenter(chart2,data.users.length)
         return data.users.length
     } catch (error) {
         console.error('Lỗi khi gọi API:', error);
@@ -213,13 +275,18 @@ const fetchMenteeCount = async () => {
 
 // Hàm cập nhật dữ liệu vào thẻ HTML
 const updateStatistics = async () => {
-    const soLuongMentee = await fetchMenteeCount(); // Đợi kết quả API
-    const soLuongMenter = await fetchMenterCount(); // Đợi kết quả API
-
-
-    dataMentee.textContent = soLuongMentee; // Cập nhật số lượng mentee vào thẻ
-    dataMenter.textContent = soLuongMenter; // Cập nhật số lượng menter vào thẻ
+    const quantityMentee = await fetchUserCount("mentee"); // Đợi kết quả API
+    const quantityMentor = await fetchUserCount("mentor"); // Đợi kết quả API
+    dataMentee.textContent = quantityMentee;
+    dataMentor.textContent = quantityMentor;
 };
+
+function formatDate(dateString) {
+    const date = new Date(dateString);  // Chuyển chuỗi thành đối tượng Date
+    const day = date.getDate().toString().padStart(2, '0');  // Lấy ngày và đảm bảo có 2 chữ số
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');  // Lấy tháng (lưu ý tháng bắt đầu từ 0)
+    return `${day}/${month}`;  // Trả về định dạng "dd/mm"
+}
 
 // Gọi hàm updateStatistics để cập nhật dữ liệu
 updateStatistics();
