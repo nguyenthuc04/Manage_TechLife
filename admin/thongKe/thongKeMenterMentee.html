@@ -282,15 +282,25 @@
                         <a style="font-family: Arial,serif" class="dropdown-item" href="#" data-value="ngay">Ngày</a>
                         <a style="font-family: Arial,serif" class="dropdown-item" href="#" data-value="tuan">Tuần</a>
                         <a style="font-family: Arial,serif" class="dropdown-item" href="#" data-value="thang">Tháng</a>
+<!--                        <a style="font-family: Arial,serif" class="dropdown-item" href="#" data-value="thang">Tháng</a>-->
                         <a style="font-family: Arial,serif" class="dropdown-item" href="#" data-value="tuy-chinh">Tuỳ chỉnh</a>
                     </div>
+                </div>
+
+                <div id="form_date_custom" style="margin-bottom: 10px;display: none">
+                    <label for="startDate">Từ ngày:</label>
+                    <input type="date" id="startDate" />
+
+                    <label for="endDate">Đến ngày:</label>
+                    <input type="date" id="endDate" />
+                    <button id="submitButton">Tìm kiếm</button>
                 </div>
 
                 <div class="row">
                     <div class="col-lg-6 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Menter</h4>
+                                <h4 class="card-title">Mentor</h4>
                                 <canvas id="lineChart1" style="height:250px"></canvas>
                             </div>
                         </div>
@@ -318,9 +328,9 @@
                                             <!-- Icon -->
                                             <div style="font-size: 50px;color: red" class="mdi mdi-account"></div>
                                             <!-- Số lượng Mentor -->
-                                            <h3 id="data-menter" class="mb-0" style="font-size: 50px;">0</h3>
+                                            <h3 id="data-mentor" class="mb-0" style="font-size: 50px;">0</h3>
                                             <!-- Text Menter -->
-                                            <h3 style="color: red; margin-bottom: 30px;margin-top: 10px">Menter</h3>
+                                            <h3 style="color: red; margin-bottom: 30px;margin-top: 10px">Mentor</h3>
                                         </div>
                                     </div>
                                 </div>
