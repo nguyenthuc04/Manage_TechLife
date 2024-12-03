@@ -48,7 +48,7 @@ const logout = () => {
         window.location.href = "../login.html"; // Đổi đường dẫn đến trang đăng nhập của bạn
     }
 };
-const API_URL = "http://26.187.200.144:3000";
+const API_URL = "http://192.168.0.126:3000";
 
 // Hàm lấy danh sách yêu cầu premium từ API và hiển thị trong bảng
 async function loadPremiumRequests() {

@@ -10,9 +10,12 @@ let resultWeek;
 let inputStartDate = document.getElementById("startDate")
 let inputEndDate = document.getElementById("endDate")
 
+const ip = localStorage.getItem('myIpAddress');
+const API_URL = `http://${ip}:3000/`;
+
 async function fetchCountUserByLastLog(filterType, accountType, startDate = null, endDate = null) {
     try {
-        let url = `http://192.168.0.126:3000/getUserByLastLog?filterType=${filterType}&accountType=${accountType}`;
+        let url = `${API_URL}getUserByLastLog?filterType=${filterType}&accountType=${accountType}`;
 
         // Nếu là chế độ tùy chỉnh, thêm tham số startDate và endDate vào URL
         if (filterType === "custom" && startDate && endDate) {
@@ -265,7 +268,7 @@ const updateChartDataLabel = (chart, newLabels, newDatasets) => {
 // Gọi API và cập nhật dữ liệu mentee
 const fetchUserCount = async (type) => {
     try {
-        const response = await fetch(`http://192.168.0.126:3000/getListUsersByAccountType?accountType=${type}`); // Đổi URL cho phù hợp
+        const response = await fetch(`${API_URL}getListUsersByAccountType?accountType=${type}`); // Đổi URL cho phù hợp
         const data = await response.json();
         return data.users.length
     } catch (error) {
