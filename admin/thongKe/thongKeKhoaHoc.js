@@ -169,19 +169,33 @@ async function fetchCourseCountByDate(filterType, startDate = null, endDate = nu
     }
 }
 
-function updateChart(chart, data) {
-    const labels = data.map(item => item.date);
-    const counts = data.map(item => item.count);
+const updateChartDataKH = (chart, newDatasets) => {
+    // Cập nhật datasets
+    chart.data.datasets = newDatasets;
+    // Cập nhật lại biểu đồ
+    chart.update();
+};
 
-    console.log(labels)
+const updateChartDataLabelKH = (chart, newLabels, newDatasets) => {
+    // Cập nhật labels
+    chart.data.labels = newLabels;
+    // Cập nhật lại biểu đồ
+    chart.update();
+};
+
+function updateChartKH(chart, data) {
+    const labels = data.map(item => formatDateKH(item.date));
+    const counts = data.map(item => item.courses.length);
+
+    console.log(counts)
 
     if (counts.length === 1) {
-        counts.push(0); // Thêm điểm giả để tạo không gian
-        labels.push(""); // Thêm label trống
+        counts.push(0); // Thêm một điểm giả với giá trị 0 để tạo không gian trên biểu đồ
+        labels.push("");  // Thêm label trống cho điểm giả
     }
 
-    updateChartDataLabel(chart, labels);
-    updateChartData(chart, [
+    updateChartDataLabelKH(chart, labels);
+    updateChartDataKH(chart, [
         {
             label: 'Số lượng khóa học',
             data: counts,
@@ -197,19 +211,19 @@ async function handleViewSelection2(selectedValue) {
         case "ngay_kh": {
             document.getElementById("form_date_custom2").style.display = "none";
             const courseData = await fetchCourseCountByDate("day");
-            updateChart(chart1_KH, courseData);
+            updateChartKH(chart1_KH, courseData);
             break;
         }
         case "tuan_kh": {
             document.getElementById("form_date_custom2").style.display = "none";
             const courseData = await fetchCourseCountByDate("week");
-            updateChart(chart1_KH, courseData);
+            updateChartKH(chart1_KH, courseData);
             break;
         }
         case "thang_kh": {
             document.getElementById("form_date_custom2").style.display = "none";
             const courseData = await fetchCourseCountByDate("month");
-            updateChart(chart1_KH, courseData);
+            updateChartKH(chart1_KH, courseData);
             break;
         }
         case "tuy-chinh_kh": {
@@ -225,7 +239,7 @@ async function handleViewSelection2(selectedValue) {
                 }
 
                 const courseData = await fetchCourseCountByDate("custom", startDate, endDate);
-                updateChart(chart1_KH, courseData);
+                updateChartKH(chart1_KH, courseData);
             });
             break;
         }
@@ -234,6 +248,12 @@ async function handleViewSelection2(selectedValue) {
     }
 }
 
+function formatDateKH(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');  // Lấy ngày và thêm số 0 nếu ngày < 10
+    const month = String(date.getMonth() + 1).padStart(2, '0');  // Lấy tháng, tháng bắt đầu từ 0 nên phải cộng thêm 1
+    return `${day}/${month}`;
+}
 
 dropdownMenu.addEventListener("click", function (event) {
     const target = event.target;
