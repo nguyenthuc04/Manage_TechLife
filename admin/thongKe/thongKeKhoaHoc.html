@@ -343,7 +343,8 @@
 
 
                 <h2 style="font-family: Arial,serif;font-weight: bold;margin-top: 20px">Thống kê khoá học</h2>
-                <div style="text-align: right; margin-bottom: 30px;margin-top: 10px" class="dropdown">
+
+                <div style="text-align: left; margin-bottom: 30px;margin-top: 40px" class="dropdown">
                     <button id="dropdownMenuButton" class="btn btn-primary dropdown-toggle" type="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span style="font-family: Arial,serif" id="textUserSelected2">Chế độ xem</span>
@@ -359,12 +360,12 @@
                 </div>
 
                 <div id="form_date_custom2" style="margin-bottom: 10px;display: none">
-                    <label for="startDate">Từ ngày:</label>
-                    <input type="date" id="startDate" />
+                    <label>Từ ngày:</label>
+                    <input type="date" id="startDateKH" />
 
-                    <label for="endDate">Đến ngày:</label>
-                    <input type="date" id="endDate" />
-                    <button id="submitButton">Tìm kiếm</button>
+                    <label>Đến ngày:</label>
+                    <input type="date" id="endDateKH" />
+                    <button id="submitButtonKH">Tìm kiếm</button>
                 </div>
 
                 <div class="row justify-content-start">
@@ -372,7 +373,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 style="font-family: Arial,serif" class="card-title">Khoá học được tạo</h4>
-                                <canvas id="lineChart1_KH" ></canvas>
+                                <canvas id="lineChart1_KH"></canvas>
                             </div>
                         </div>
                     </div>
@@ -416,6 +417,7 @@
 <!-- Custom js for this page -->
 <script src="../../assets/js/chart.js"></script>
 <script src="./thongKeKhoaHoc.js"></script>
+<script src="/config.js"></script>
 <!-- End custom js for this page -->
 </body>
 </html>

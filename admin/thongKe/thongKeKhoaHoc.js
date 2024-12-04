@@ -8,7 +8,7 @@ const dataAllKH = document.getElementById("data-khoahoc-all");
 const dataDhdKH = document.getElementById("data-khoahoc-danghd");
 const dataDktKH = document.getElementById("data-khoahoc-dakt");
 
-const ip = localStorage.getItem('myIpAddress');
+const ip = localStorage.getItem('ipAddress');
 const API_URL = `http://${ip}:3000/`;
 
 if (!user || !token) {
@@ -229,9 +229,9 @@ async function handleViewSelection2(selectedValue) {
         case "tuy-chinh_kh": {
             document.getElementById("form_date_custom2").style.display = "block";
 
-            document.getElementById("submitButton").addEventListener("click", async () => {
-                const startDate = document.getElementById("startDate").value;
-                const endDate = document.getElementById("endDate").value;
+            document.getElementById("submitButtonKH").addEventListener("click", async () => {
+                const startDate = document.getElementById("startDateKH").value;
+                const endDate = document.getElementById("endDateKH").value;
 
                 if (!startDate || !endDate) {
                     alert("Vui lòng chọn đầy đủ ngày bắt đầu và ngày kết thúc!");
@@ -247,6 +247,9 @@ async function handleViewSelection2(selectedValue) {
             console.error("Không xác định chế độ xem");
     }
 }
+
+handleViewSelection2("tuan_kh")
+resultDisplay.textContent = `Chế độ xem: Tuần`;
 
 function formatDateKH(dateString) {
     const date = new Date(dateString);

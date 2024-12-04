@@ -10,7 +10,7 @@ let resultWeek;
 let inputStartDate = document.getElementById("startDate")
 let inputEndDate = document.getElementById("endDate")
 
-const ip = localStorage.getItem('myIpAddress');
+const ip = localStorage.getItem('ipAddress');
 const API_URL = `http://${ip}:3000/`;
 
 async function fetchCountUserByLastLog(filterType, accountType, startDate = null, endDate = null) {
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
         type: 'line',
         data: {
             labels: ["Hôm nay", "Ngày mai"],
-            datasets: []
+            datasets: [],
         },
         options: {
             // responsive: true,
@@ -148,12 +148,23 @@ function updateChart(chart, data) {
     }
 
     updateChartDataLabel(chart, labels);
+    let backgroundColor, borderColor;
+    console.log(chart)
+    if (chart.id === 1) {
+        // Nếu counts lớn hơn 50, dùng màu xanh
+        backgroundColor = 'rgba(54, 162, 235, 0.2)'; // Màu xanh nhạt
+        borderColor = 'rgba(54, 162, 235, 1)'; // Màu xanh đậm
+    } else {
+        // Nếu counts nhỏ hơn hoặc bằng 50, dùng màu đỏ
+        backgroundColor = 'rgba(255, 99, 132, 0.2)'; // Màu đỏ nhạt
+        borderColor = 'rgba(255, 99, 132, 1)'; // Màu đỏ đậm
+    }
     updateChartData(chart, [
         {
             label: 'Số lượng',
             data: counts,
-            borderColor: 'rgba(75, 192, 192, 1)',
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            backgroundColor: backgroundColor,
+            borderColor: borderColor,
             borderWidth: 1,
         },
     ]);
@@ -222,6 +233,9 @@ async function handleViewSelection(selectedValue, countData) {
             console.error("Không xác định chế độ xem");
     }
 }
+
+handleViewSelection("tuan")
+resultDisplay.textContent = `Chế độ xem: Tuần`;
 
 // Hàm xử lý tổng thể
 async function SelectedView() {
