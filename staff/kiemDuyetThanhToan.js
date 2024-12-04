@@ -48,3 +48,93 @@ const logout = () => {
         window.location.href = "../login.html"; // Đổi đường dẫn đến trang đăng nhập của bạn
     }
 };
+const API_URL = "http://26.187.200.144:3000";
+
+// Hàm lấy danh sách yêu cầu premium từ API và hiển thị trong bảng
+async function loadPremiumRequests() {
+    const response = await fetch(`${API_URL}/getPremiumRequests`);
+    const data = await response.json();
+
+    const premiumRequestsTable = document.getElementById('premiumRequestsTable');
+    premiumRequestsTable.innerHTML = ''; // Xóa bảng cũ trước khi thêm dữ liệu
+
+    if (data.success) {
+        if (data.data.length === 0) {
+            // Hiển thị thông báo nếu danh sách rỗng
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td colspan="5" style="text-align: center;">Không có yêu cầu nào để hiển thị</td>
+            `;
+            premiumRequestsTable.appendChild(row);
+        } else {
+            // Hiển thị danh sách yêu cầu
+            data.data.forEach(request => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${request._id}</td>
+                    <td>${request.userName}</td>
+                    <td><img src="${request.userImageUrl}" alt="User Image" width="50"></td>
+                    <td>
+                        <img src="${request.imageUrl}" alt="Request Image" class="request-image" onclick="viewImage('${request.imageUrl}')">
+                    </td>
+                    <td>
+                        <button class="btn btn-success" onclick="showApproveModal('${request._id}')">Duyệt</button>
+                        <button class="btn btn-danger" onclick="deleteRequest('${request._id}')">Xóa</button>
+                    </td>
+                `;
+                premiumRequestsTable.appendChild(row);
+            });
+        }
+    } else {
+        alert(data.message || 'Không thể tải danh sách yêu cầu.');
+    }
+}
+
+
+// Hiển thị ảnh chi tiết trong modal
+function viewImage(imageUrl) {
+    const modalImage = document.getElementById('modalImage');
+    modalImage.src = imageUrl;  // Set the src of the image in the modal
+    $('#imageModal').modal('show');  // Show the modal with the image
+}
+
+// Hiển thị modal để xác nhận duyệt mentor
+function showApproveModal(requestId) {
+    const approveBtn = document.getElementById('confirmApproveMentorBtn');
+    approveBtn.onclick = () => approveMentor(requestId);
+    $('#approveMentorModal').modal('show');
+}
+
+// Xác nhận duyệt mentor
+async function approveMentor(requestId) {
+    const response = await fetch(`${API_URL}/approveMentor/${requestId}`, {
+        method: 'POST',
+    });
+    const data = await response.json();
+
+    if (data.success) {
+        alert('Người dùng đã được duyệt thành mentor thành công!');
+        loadPremiumRequests();  // Tải lại danh sách yêu cầu premium
+        $('#approveMentorModal').modal('hide');  // Đóng modal
+    } else {
+        alert(data.message || 'Đã xảy ra lỗi khi duyệt mentor.');
+    }
+}
+
+// Xóa yêu cầu
+async function deleteRequest(requestId) {
+    const response = await fetch(`${API_URL}/deletePremiumRequest/${requestId}`, {
+        method: 'DELETE',
+    });
+    const data = await response.json();
+
+    if (data.success) {
+        alert('Yêu cầu đã bị xóa.');
+        loadPremiumRequests();  // Tải lại danh sách yêu cầu premium
+    } else {
+        alert('Đã xảy ra lỗi khi xóa yêu cầu.');
+    }
+}
+
+// Gọi hàm để tải danh sách yêu cầu premium khi trang được tải
+document.addEventListener('DOMContentLoaded', loadPremiumRequests);
