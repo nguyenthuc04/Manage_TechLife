@@ -44,11 +44,13 @@ btnLogin.addEventListener('click', async (e) => {
 
 })
 
+const ip = localStorage.getItem('ipAddress');
+const API_URL = `http://${ip}:3000`;
 
 const Login = async (account, password) => {
     try {
         // Gửi yêu cầu tới backend
-        const response = await fetch('http://26.187.200.144:3000/loginweb', {
+        const response = await fetch(`${API_URL}/loginweb`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

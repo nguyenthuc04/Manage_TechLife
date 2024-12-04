@@ -99,7 +99,7 @@ function displayAcceptedReels(reels) {
                     Chấp nhận lúc: ${new Date(reel.acceptedAt).toLocaleString()}
                 </div>
                 <div class="post-actions">
-                    <button onclick="unarchiveReel('${reel._id}')" class="unarchive-button">Hủy lưu trữ</button>
+                    <button onclick="unarchiveReel('${reel._id}')" class="unarchive-button">Hủy</button>
                 </div>
             `;
             acceptedReelsList.appendChild(reelElement);

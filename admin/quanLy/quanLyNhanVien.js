@@ -49,7 +49,8 @@ const logout = () => {
     }
 };
 // URL của API (thay đổi nếu cần)
-const API_URL = "http://26.187.200.144:3000";
+const ip = localStorage.getItem('ipAddress');
+const API_URL = `http://${ip}:3000`;
 
 // Hàm tải danh sách nhân viên
 const loadStaffList = async () => {

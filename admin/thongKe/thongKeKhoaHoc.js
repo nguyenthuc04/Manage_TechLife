@@ -57,11 +57,13 @@ const logout = () => {
     }
 };
 
+const ip = localStorage.getItem('ipAddress');
+const API_URL = `http://${ip}:3000`;
 // Hàm fetch danh sách khóa học
 async function fetchCourses() {
     try {
         // Gọi API /getListCourses
-        const response = await fetch('http://192.168.1.31:3000/getListCourses', {
+        const response = await fetch(`${API_URL}/getListCourses`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -105,7 +107,7 @@ async function fetchCourses() {
 
 async function fetchCoursesByDate(startDate, endDate) {
     try {
-        const response = await fetch(`http://192.168.1.31:3000/getCoursesByDate?startDate=${startDate}&endDate=${endDate}`, {
+        const response = await fetch(`${API_URL}/getCoursesByDate?startDate=${startDate}&endDate=${endDate}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

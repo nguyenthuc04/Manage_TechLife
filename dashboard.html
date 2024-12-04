@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>TechLife | Dashboard</title>
     <!-- plugins:css -->
+    <link rel="stylesheet" href="cssDashboard.css">
     <link rel="stylesheet" href="./assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="./assets/vendors/css/vendor.bundle.base.css">
+
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <!-- End Plugin css for this page -->
@@ -63,7 +65,7 @@
                 </a>
             </li>
 
-<!--            chuc nang cua staff-->
+            <!--            chuc nang cua staff-->
             <li id="titleKD" class="nav-item nav-category">
                 <span style="font-size: 15px" class="fc-title">Kiểm duyệt</span>
             </li>
@@ -269,8 +271,54 @@
         <div class="main-panel">
             <div class="content-wrapper">
                 <div class="page-header"></div>
-                <!--                    code nội dung chức năng ở đây-->
-                <h2 style="font-family: Arial,serif;font-weight: bold">Dashboard</h2>
+                <div class="container">
+                    <h1>Trang chủ</h1>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <i class="mdi mdi-currency-usd"></i>
+                            <h3>Doanh thu</h3>
+                            <p id="totalRevenue">0</p>
+                        </div>
+                        <div class="stat-item">
+                            <i class="mdi mdi-book-open-page-variant"></i>
+                            <h3>Khóa học</h3>
+                            <p id="totalCourses">0</p>
+                        </div>
+                        <div class="stat-item">
+                            <i class="mdi mdi-file-document-box-multiple"></i>
+                            <h3>Bài viết</h3>
+                            <p id="totalPosts">0</p>
+                        </div>
+                        <div class="stat-item">
+                            <i class="mdi mdi-video"></i>
+                            <h3>Reels</h3>
+                            <p id="totalReels">0</p>
+                        </div>
+                        <div class="stat-item">
+                            <i class="mdi mdi-account-multiple"></i>
+                            <h3>Người dùng</h3>
+                            <p id="totalUsers">0</p>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <h2>Tổng quan tương tác</h2>
+                        <canvas id="engagementChart" width="400" height="200"></canvas>
+                    </div>
+
+                    <!-- Thống kê người dùng hoạt động nhiều nhất -->
+                    <section class="active-users-section">
+                        <h2>Người dùng hoạt động gần đây</h2>
+                        <ul id="activeUsersList"></ul>
+                    </section>
+
+                    <!-- Thống kê bài viết được thích nhiều nhất -->
+                    <section class="liked-posts-section">
+                        <h2>Bài viết được thích nhiều nhất</h2>
+                        <ul id="likedPostsList"></ul>
+                    </section>
+
+                </div>
 
                 <!-- content-wrapper ends -->
             </div>
