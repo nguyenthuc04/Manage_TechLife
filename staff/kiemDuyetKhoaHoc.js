@@ -52,7 +52,7 @@ const logout = () => {
 const ip = localStorage.getItem('ipAddress');
 const API_URL = `http://${ip}:3000/coursesQT`;
 
-function fetchAcceptedReels() {
+function fetchAcceptedCourses() {
     console.log('Đang tải danh sách khoá học đã chấp nhận...');
     const acceptedCoursesList = document.getElementById('accepted-courses-list');
 
@@ -66,7 +66,7 @@ function fetchAcceptedReels() {
         .then(courses => {
             console.log('Đã nhận được dữ liệu:', courses);
             // Sort posts by acceptedAt date, most recent first
-            courses.sort((a, b) => new Date(b.acceptedAt) - new Date(a.acceptedAt));
+            courses.sort((a, b) => new Date(b.date) - new Date(a.date));
             displayAcceptedCourses(courses);
         })
         .catch(error => {
@@ -87,20 +87,21 @@ function displayAcceptedCourses(courses) {
             courseElement.className = 'course-card';
             courseElement.innerHTML = `
                 <div class="course-header">
-                    <img src="${course.userImageUrl}" alt="${course.userName}">
-                    <div class="user-info">
-                        <div class="name">${course.userName}</div>
-                        <div class="date">${new Date(course.createdAt).toLocaleDateString()}</div>
+                        <img src="${course.userImageUrl}" alt="${course.userName}">
+                        <div class="user-info">
+                            <div class="name">${course.userName}</div>
+                            <div class="date">${new Date(course.date).toLocaleDateString()}</div>
+                        </div>
                     </div>
-                </div>
-                <div class="course-content">
-                    <p>${course.describe}</p>
-                    <div class="post-video video-container">
-                        <video src="${reel.videoUrl}" controls></video>
+                    <div class="course-content">
+                        <p>Mô tả: ${course.describe}</p>
+                        <div class="course-images">
+                            <img src="${course.imageUrl}">
+                        </div>
                     </div>
-                </div>
+                    </div>
                 <div class="accepted-info">
-                    Chấp nhận lúc: ${new Date(course.acceptedAt).toLocaleString()}
+                    Chấp nhận lúc: ${new Date(course.date).toLocaleString()}
                 </div>
                 <div class="course-actions">
                     <button onclick="unarchiveCourse('${course._id}')" class="unarchive-button">Hủy lưu trữ</button>
@@ -138,10 +139,15 @@ function acceptCourse(courseId) {
     fetch(`${API_URL}/${courseId}/accept`, {
         method: 'PUT',
     })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Lỗi ${response.status}: ${response.statusText}`);
+            }
+            return response.json();
+        })
         .then(data => {
-            if (data.reel) {
-                console.log('Khoá học đã được chấp nhận:', data.reel);
+            if (data.message) {
+                console.log('Khoá học đã được chấp nhận:', data.message);
                 alert('Khoá học đã được chấp nhận và lưu trữ.');
                 fetchCourses();
                 fetchAcceptedCourses();
@@ -149,13 +155,17 @@ function acceptCourse(courseId) {
                 throw new Error('Không nhận được dữ liệu khoá học từ server');
             }
         })
-        .catch(error => console.error('Lỗi khi chấp nhận khoá học:', error));
+        .catch(error => {
+            console.error('Lỗi khi chấp nhận khoá học:', error);
+            alert(`Có lỗi xảy ra: ${error.message}`);
+        });
 }
+
 
 document.addEventListener('DOMContentLoaded', function() {
     const pendingTab = document.getElementById('pending-tab');
     const acceptedTab = document.getElementById('accepted-tab');
-    const courseList = document.getElementById('courses-list');
+    const courseList = document.getElementById('course-list');
     const acceptedCoursesContainer = document.getElementById('accepted-courses-container');
 
     pendingTab.addEventListener('click', function() {
@@ -181,28 +191,30 @@ function fetchCourses() {
     fetch(API_URL)
         .then(response => response.json())
         .then(courses => {
-            courses.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            courses.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-            const courseList = document.getElementById('courses-list');
+            const courseList = document.getElementById('course-list');
             courseList.innerHTML = '';
 
             courses.forEach(course => {
                 const courseCard = document.createElement('div');
-                courseCard.className = 'post-card';
+                courseCard.className = 'course-card';
+
 
                 courseCard.innerHTML = `
                     <div class="course-header">
                         <img src="${course.userImageUrl}" alt="${course.userName}">
                         <div class="user-info">
                             <div class="name">${course.userName}</div>
-                            <div class="date">${new Date(reel.createdAt).toLocaleDateString()}</div>
+                            <div class="date">${new Date(course.date).toLocaleDateString()}</div>
                         </div>
                     </div>
                     <div class="course-content">
-                        <p>${course.caption}</p>
-                        <div class="post-video video-container">
-                            <video src="${reel.videoUrl}" controls></video>
+                        <p>Mô tả: ${course.describe}</p>
+                        <div class="course-images">
+                            <img src="${course.imageUrl}">
                         </div>
+                    </div>
                     </div>
                     <div class="course-actions">
                         <button onclick="acceptCourse('${course._id}')" class="accept-button">Chấp nhận</button>
