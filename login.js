@@ -45,7 +45,7 @@ btnLogin.addEventListener('click', async (e) => {
 
 })
 
-const ipAddress = '192.168.110.155'; // thay ip chung tai day
+const ipAddress = '192.168.88.1'; // thay ip chung tai day
 localStorage.setItem('myIpAddress', ipAddress);
 const API_URL = `http://${ipAddress}:3000/`;
 

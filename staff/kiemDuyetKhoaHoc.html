@@ -14,7 +14,9 @@
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
+    <link rel="stylesheet" href="stylesCourse.css">
     <link rel="stylesheet" href="../assets/css/style.css">
+
     <!-- End layout styles -->
     <link rel="shortcut icon" href="../assets/images/logoweb.jpg"/>
 </head>
@@ -208,89 +210,38 @@
         </ul>
     </nav>
     <!-- partial -->
-    <div class="container-fluid page-body-wrapper">
-        <!-- partial:../../partials/_navbar.html -->
-        <nav class="navbar p-0 fixed-top d-flex flex-row">
-            <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo-mini" href="../dashboard.html"><img
-                        src="../assets/images/logo-mini.svg" alt="logo"/></a>
-            </div>
-            <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
-                <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-                    <span class="mdi mdi-menu"></span>
-                </button>
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="page-header"></div>
 
-                <ul class="navbar-nav navbar-nav-right">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
-                            <div class="navbar-profile">
-                                <span style="font-size: 20px" class="mdi mdi-account-box"></span>
-                                <p id="name-user-2" class="mb-0 d-none d-sm-block navbar-profile-name">...</p>
-                                <i class="mdi mdi-menu-down d-none d-sm-block"></i>
-                            </div>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
-                             aria-labelledby="profileDropdown">
-
-                            <div class="dropdown-divider"></div>
-                            <a href="../doiMatKhau.html" class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <div class="preview-icon bg-dark rounded-circle">
-                                        <i class="mdi mdi-key-variant"></i>
-                                    </div>
-                                </div>
-                                <div class="preview-item-content">
-                                    <p class="preview-subject mb-1">Change Password</p>
-                                </div>
-                            </a>
-                            <div class="dropdown-divider"></div>
-
-                            <a onclick="logout()" class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <div class="preview-icon bg-dark rounded-circle">
-                                        <i class="mdi mdi-logout text-danger"></i>
-                                    </div>
-                                </div>
-                                <div class="preview-item-content">
-                                    <p class="preview-subject mb-1">Log out</p>
-                                </div>
-                            </a>
-
-                        </div>
-                    </li>
-                </ul>
-                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
-                        data-toggle="offcanvas">
-                    <span class="mdi mdi-format-line-spacing"></span>
-                </button>
-            </div>
-        </nav>
-        <!-- partial -->
-        <div class="main-panel">
-            <div class="content-wrapper">
-                <div class="page-header"></div>
-
-                <!--                    code nội dung chức năng ở đây-->
-
-                <h2 style="font-family: Arial,serif;font-weight: bold">Kiểm duyệt khoá học</h2>
-
-
-
-
-                <!-- content-wrapper ends -->
-            </div>
-            <!-- partial:../../partials/_footer.html -->
-            <footer class="footer">
-                <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                    <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com 2020</span>
-                    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a
-                            href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin templates</a> from Bootstrapdash.com</span>
+            <div id="course-container">
+                <h1>Kiểm duyệt khoá học</h1>
+                <div class="tab-container">
+                    <button id="pending-tab" class="tab-button active">Khoá học chờ duyệt</button>
+                    <button id="accepted-tab" class="tab-button">Khoá học đã chấp nhận</button>
                 </div>
-            </footer>
-
-            <!-- partial -->
+                <div id="courses-list" class="tab-content active">
+                    <!-- Dữ liệu bài viết cần kiểm duyệt sẽ được thêm vào đây -->
+                </div>
+                <div id="accepted-courses-container" class="tab-content">
+                    <h2>Danh sách khoá học đã chấp nhận</h2>
+                    <div id="accepted-courses-list">
+                        <!-- Dữ liệu khoá học đã chấp nhận sẽ được thêm vào đây -->
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
         </div>
-        <!-- main-panel ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <footer class="footer">
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com 2020</span>
+                <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a
+                        href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin templates</a> from Bootstrapdash.com</span>
+            </div>
+        </footer>
+
+        <!-- partial -->
     </div>
     <!-- page-body-wrapper ends -->
 </div>
@@ -311,6 +262,8 @@
 <!-- Custom js for this page -->
 <script src="../assets/js/chart.js"></script>
 <script src="./kiemDuyetKhoaHoc.js"></script>
+<script src="/config.js"></script>
+
 <!-- End custom js for this page -->
 </body>
 </html>
