@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>TechLife | Kiểm duyệt khoá học</title>
     <!-- plugins:css -->
+    <link rel="stylesheet" href="stylesCourse.css">
     <link rel="stylesheet" href="../assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="../assets/vendors/css/vendor.bundle.base.css">
     <!-- endinject -->
@@ -270,13 +271,22 @@
             <div class="content-wrapper">
                 <div class="page-header"></div>
 
-                <!--                    code nội dung chức năng ở đây-->
-
-                <h2 style="font-family: Arial,serif;font-weight: bold">Kiểm duyệt khoá học</h2>
-
-
-
-
+                <div id="course-container">
+                    <h1>Kiểm duyệt khoá học</h1>
+                    <div class="tab-container">
+                        <button id="pending-tab" class="tab-button active">Khoá học chờ duyệt</button>
+                        <button id="accepted-tab" class="tab-button">Khoá học đã chấp nhận</button>
+                    </div>
+                    <div id="course-list" class="tab-content active">
+                        <!-- Dữ liệu bài viết cần kiểm duyệt sẽ được thêm vào đây -->
+                    </div>
+                    <div id="accepted-courses-container" class="tab-content">
+                        <h2>Danh sách reels đã chấp nhận</h2>
+                        <div id="accepted-courses-list">
+                            <!-- Dữ liệu bài viết đã chấp nhận sẽ được thêm vào đây -->
+                        </div>
+                    </div>
+                </div>
                 <!-- content-wrapper ends -->
             </div>
             <!-- partial:../../partials/_footer.html -->
@@ -311,6 +321,8 @@
 <!-- Custom js for this page -->
 <script src="../assets/js/chart.js"></script>
 <script src="./kiemDuyetKhoaHoc.js"></script>
+<script src="/config.js"></script>
+
 <!-- End custom js for this page -->
 </body>
 </html>

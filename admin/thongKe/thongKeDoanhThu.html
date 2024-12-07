@@ -9,13 +9,17 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="../../assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="../../assets/vendors/css/vendor.bundle.base.css">
+
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <!-- End Plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
+    <link rel="stylesheet" href="../cssCuonTabPhong.css">
     <link rel="stylesheet" href="../../assets/css/style.css">
+
+
     <!-- End layout styles -->
     <link rel="shortcut icon" href="../../assets/images/logoweb.jpg"/>
 </head>
@@ -137,7 +141,7 @@
               <span class="menu-icon">
                 <i class="mdi mdi-account-switch"></i>
               </span>
-                    <span class="menu-title">Menter & Mentee</span>
+                    <span class="menu-title">Mentor & Mentee</span>
                 </a>
             </li>
 
@@ -271,39 +275,88 @@
                 <div class="page-header"></div>
 
                 <div class="container">
-                    <h1>Thống Kê Doanh Thu Nâng Cấp Mentor</h1>
-                    <div class="grid">
-                        <div class="card">
-                            <h3>Tổng số Mentor</h3>
-                            <p id="totalMentors"></p>
-                        </div>
-                        <div class="card">
-                            <h3>Giá nâng cấp</h3>
-                            <p id="upgradePrice"></p>
-                        </div>
-                        <div class="card">
-                            <h3>Tổng doanh thu</h3>
-                            <p id="totalRevenue"></p>
+                    <h1 style="font-family: Arial,serif;font-weight: bold;margin: 10px">Thống Kê Doanh Thu</h1>
+
+                    <div style="text-align: left; margin-bottom: 30px;margin-top: 40px" class="dropdown">
+                        <button id="dropdownMenuButton" class="btn btn-primary dropdown-toggle" type="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span style="font-family: Arial,serif" id="textUserSelected3">Chế độ xem</span>
+                        </button>
+                        <div id="dropdownMenu3" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a style="font-family: Arial,serif" class="dropdown-item" href="#"
+                               data-value="ngay_dt">Ngày</a>
+                            <a style="font-family: Arial,serif" class="dropdown-item" href="#"
+                               data-value="tuan_dt">Tuần</a>
+                            <a style="font-family: Arial,serif" class="dropdown-item" href="#"
+                               data-value="thang_dt">Tháng</a>
+                            <a style="font-family: Arial,serif" class="dropdown-item" href="#"
+                               data-value="tuy-chinh_dt">Tuỳ
+                                chỉnh</a>
                         </div>
                     </div>
+
+                    <div id="form_date_custom_dt" style="margin-bottom: 10px;display: none">
+                        <label>Từ ngày:</label>
+                        <input type="date" id="startDateDT"/>
+
+                        <label>Đến ngày:</label>
+                        <input type="date" id="endDateDT"/>
+                        <button id="submitButton3">Tìm kiếm</button>
+                    </div>
+
+                    <h2 style="font-family: Arial,serif;font-weight: bold;margin-bottom: 40px">Theo doanh thu</h2>
+
                     <div class="chart-container">
-                        <h2>Tổng doanh thu</h2>
-                        <canvas id="revenueChart"></canvas>
+                        <canvas id="barChart" style="height:150px"></canvas>
                     </div>
-                    <h2>Danh sách Mentor</h2>
-                    <div class="overflow-x-auto">
-                        <table id="mentorTable">
-                            <thead>
-                            <tr>
-                                <th>Tên</th>
-                                <th>Nickname</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <!-- Dữ liệu sẽ được thêm vào đây bằng JavaScript -->
-                            </tbody>
-                        </table>
+
+                    <h2 style="font-family: Arial,serif;font-weight: bold;margin-bottom: 40px">Theo thể loại</h2>
+
+                    <div class="row">
+                        <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12 d-flex justify-content-center align-items-center">
+                                            <div class="text-center">
+                                                <!-- Icon -->
+                                                <div style="font-size: 50px;color: yellow"
+                                                     class="mdi mdi-cash-multiple"></div>
+                                                <!-- Số lượng Mentor -->
+                                                <h4 id="data-nangcaptk" class="mb-0" style="color: red;font-size: 40px;">0</h4>
+                                                <h4 style="margin-top: 15px;font-family: Arial,serif">( VNĐ )</h4>
+                                                <h4 style="margin-top: 15px;font-family: Arial,serif">Nâng cấp tài khoản</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12 d-flex justify-content-center align-items-center">
+                                            <div class="text-center">
+                                                <!-- Icon -->
+                                                <div style="font-size: 50px;color: blue"
+                                                     class="mdi mdi-cash-multiple"></div>
+                                                <!-- Số lượng Mentor -->
+                                                <h4 id="data-duytritk" class="mb-0" style="color:red;font-size: 40px;">
+                                                    0</h4>
+                                                <h4 style="margin-top: 15px;font-family: Arial,serif">( VNĐ )</h4>
+                                                <h4 style="margin-top: 15px;font-family: Arial,serif">Duy trì tài khoản</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
+
                 </div>
                 <!-- content-wrapper ends -->
             </div>
@@ -339,7 +392,7 @@
 <script src="../../assets/js/todolist.js"></script>
 <!-- endinject -->
 <!-- Custom js for this page -->
-<script src="../../assets/js/chart.js"></script>
+
 <script src="./thongKeDoanhThu.js"></script>
 <script src="../../config.js"></script>
 <!-- End custom js for this page -->

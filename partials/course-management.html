@@ -1,36 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>TechLife</title>
-    <!-- plugins:css -->
-    <link rel="stylesheet" href="./assets/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="./assets/vendors/css/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <!-- End Plugin css for this page -->
-    <!-- inject:css -->
-    <!-- endinject -->
-    <!-- Layout styles -->
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <!-- End layout styles -->
-    <link rel="shortcut icon" href="./assets/images/favicon.png"/>
+    <link rel="stylesheet" href="../assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../assets/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="shortcut icon" href="../assets/images/favicon.png"/>
 </head>
 <body>
 <div class="container-scroller">
-    <!-- partial:../../partials/_sidebar.html -->
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
             <a class="sidebar-brand brand-logo" href="../../index.html">
                 <h2 style="color: white">TechLife</h2>
             </a>
             <a class="sidebar-brand brand-logo-mini" href="../../index.html">
-                <!--                title khi tắt navigation-->
             </a>
         </div>
-        <ul style="" class="nav">
+        <ul style="width: 350px" class="nav">
             <li class="nav-item profile">
                 <div class="profile-desc">
                     <div class="profile-pic">
@@ -39,9 +28,7 @@
                             <span class="count bg-success"></span>
                         </div>
                         <div class="profile-name">
-                            <!--                            ten cua user-->
                             <h5 class="mb-0 font-weight-normal">Henry Klein</h5>
-                            <!--                            vai tro cua user-->
                             <span>Gold Member</span>
                         </div>
                     </div>
@@ -88,11 +75,11 @@
             </li>
             <li class="nav-item menu-items">
                 <!--                link đến chức năng khác-->
-                <a class="nav-link" href="./thongKeMenterMentee.html">
+                <a class="nav-link" href="./index.html">
               <span class="menu-icon">
                 <i class="mdi mdi-speedometer"></i>
               </span>
-                    <span class="menu-title">Menter & Mentee</span>
+                    <span class="menu-title">Thống kê Menter & Mentee</span>
                 </a>
             </li>
 
@@ -116,7 +103,7 @@
 
             <li class="nav-item menu-items">
                 <!--                link đến chức năng khác-->
-                <a class="nav-link" href="./partials/coursemanage.html">
+                <a class="nav-link" href="../pages/forms/basic_elements.html">
               <span class="menu-icon">
                 <i class="mdi mdi-playlist-play"></i>
               </span>
@@ -126,7 +113,7 @@
 
             <li class="nav-item menu-items">
                 <!--                link đến chức năng khác-->
-                <a class="nav-link" href="./pages/tables/basic-table.html">
+                <a class="nav-link" href="../pages/tables/basic-table.html">
               <span class="menu-icon">
                 <i class="mdi mdi-table-large"></i>
               </span>
@@ -140,7 +127,7 @@
 
             <!--                link đến chức năng khác-->
             <li class="nav-item menu-items">
-                <a class="nav-link" href="./pages/user/QuanLyNguoiDung.html">
+                <a class="nav-link" href="../pages/charts/chartjs.html">
               <span class="menu-icon">
                 <i class="mdi mdi-chart-bar"></i>
               </span>
@@ -150,7 +137,7 @@
 
             <li class="nav-item menu-items">
                 <!--                link đến chức năng khác-->
-                <a class="nav-link" href="./thongKeKhoaHoc.html">
+                <a class="nav-link" href="./pages/icons/mdi.html">
               <span class="menu-icon">
                 <i class="mdi mdi-contacts"></i>
               </span>
@@ -158,7 +145,7 @@
                 </a>
             </li>
             <li class="nav-item menu-items">
-                <a class="nav-link" href="./pages/post/post-moderation.html">
+                <a class="nav-link" href="../pages/post/post-moderation.html">
               <span class="menu-icon">
                 <i class="mdi mdi-chart-bar"></i>
               </span>
@@ -177,7 +164,7 @@
 
             <li class="nav-item menu-items">
                 <!--                link đến chức năng khác-->
-                <a class="nav-link" href="./partials/staff-management.html" >
+                <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
               <span class="menu-icon">
                 <i class="mdi mdi-security"></i>
               </span>
@@ -296,85 +283,170 @@
             <div class="content-wrapper">
                 <div class="page-header"></div>
                 <!--                    code nội dung chức năng ở đây-->
-                <h2 style="font-family: Arial,serif;font-weight: bold">Hoạt động gần đây</h2>
-                <div style="text-align: right; margin-bottom: 30px;margin-top: 10px" class="dropdown">
-                    <button onclick="SelectedView()" id="dropdownMenuButton" class="btn btn-primary dropdown-toggle" type="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span style="font-family: Arial,serif" id="textUserSelected">Chế độ xem</span>
-                    </button>
-                    <div id="dropdownMenu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a style="font-family: Arial,serif" class="dropdown-item" href="#" data-value="ngay">Ngày</a>
-                        <a style="font-family: Arial,serif" class="dropdown-item" href="#" data-value="tuan">Tuần</a>
-                        <a style="font-family: Arial,serif" class="dropdown-item" href="#" data-value="thang">Tháng</a>
-                        <a style="font-family: Arial,serif" class="dropdown-item" href="#" data-value="tuy-chinh">Tuỳ chỉnh</a>
-                    </div>
-                </div>
+                <head>
+                    <!-- Meta and Styles -->
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Staff Management</title>
+                    <link rel="stylesheet" href="../assets/vendors/mdi/css/materialdesignicons.min.css">
+                    <link rel="stylesheet" href="../assets/vendors/css/vendor.bundle.base.css">
+                    <link rel="stylesheet" href="../assets/css/style.css">
+                    <script type="module" src="staff-management.js"></script>
+                </head>
+                <body>
+                <div class="container-scroller">
 
-                <div class="row">
-                    <div class="col-lg-6 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Menter</h4>
-                                <canvas id="lineChart1" style="height:250px"></canvas>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="container-fluid page-body-wrapper">
 
-                    <div class="col-lg-6 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Mentee</h4>
-                                <canvas id="lineChart2" style="height:250px"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        <!-- Main content -->
+                        <div class="main-panel">
+                            <div class="content-wrapper">
+                                <div class="page-header">
+                                    <h3 class="page-title"> Staff Management </h3>
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">Manage Staff</li>
+                                        </ol>
+                                    </nav>
+                                </div>
 
-                <h2 style="font-family: Arial,serif;font-weight: bold;margin-bottom: 40px">Tổng số user</h2>
+                                <!-- Add Staff Button -->
+                                <div class="row mb-4">
+                                    <div class="col">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addStaffModal">
+                                            <i class="mdi mdi-account-plus"></i> Add Staff
+                                        </button>
+                                    </div>
+                                </div>
 
-                <div class="row">
-                    <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
+                                <!-- Staff Table -->
                                 <div class="row">
-                                    <div class="col-12 d-flex justify-content-center align-items-center">
-                                        <div class="text-center">
-                                            <!-- Icon -->
-                                            <div style="font-size: 50px;color: red" class="mdi mdi-account"></div>
-                                            <!-- Số lượng Mentor -->
-                                            <h3 id="data-menter" class="mb-0" style="font-size: 50px;">0</h3>
-                                            <!-- Text Menter -->
-                                            <h3 style="color: red; margin-bottom: 30px;margin-top: 10px">Menter</h3>
+                                    <div class="col-lg-12 grid-margin stretch-card">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="card-title">Staff List</h4>
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>ID</th>
+                                                            <th>Name</th>
+                                                            <th>Email</th>
+                                                            <th>Phone</th>
+                                                            <th>Position</th>
+                                                            <th>Actions</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="staffTable">
+                                                        <!-- Staff rows will be dynamically added here -->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <!-- Footer -->
+                            <footer class="footer">
+                                <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright ©
+              2024</span>
+                                </div>
+                            </footer>
                         </div>
                     </div>
+                </div>
 
-
-                    <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-12 d-flex justify-content-center align-items-center">
-                                        <div class="text-center">
-                                            <!-- Icon -->
-                                            <div style="font-size: 50px;color: blue" class="mdi mdi-account"></div>
-                                            <!-- Số lượng Mentor -->
-                                            <h3 id="data-mentee" class="mb-0" style="font-size: 50px;">0</h3>
-                                            <!-- Text Menter -->
-                                            <h3 style="color: blue; margin-bottom: 30px;margin-top: 10px">Mentee</h3>
-                                        </div>
+                <!-- Add Staff Modal -->
+                <div class="modal fade" id="addStaffModal" tabindex="-1" role="dialog" aria-labelledby="addStaffModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addStaffModalLabel">Add Staff</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="addStaffForm">
+                                    <div class="form-group">
+                                        <label for="staffName">Name</label>
+                                        <input type="text" class="form-control" id="staffName" placeholder="Enter name">
                                     </div>
-                                </div>
+                                    <div class="form-group">
+                                        <label for="staffEmail">Email</label>
+                                        <input type="email" class="form-control" id="staffEmail" placeholder="Enter email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="staffPhone">Phone</label>
+                                        <input type="text" class="form-control" id="staffPhone" placeholder="Enter phone">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="staffPosition">Position</label>
+                                        <input type="text" class="form-control" id="staffPosition" placeholder="Enter position">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </form>
                             </div>
                         </div>
                     </div>
-
+                </div>
+                <!-- Edit Staff Modal -->
+                <div class="modal fade" id="editStaffModal" tabindex="-1" role="dialog" aria-labelledby="editStaffModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editStaffModalLabel">Edit Staff</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="editStaffForm">
+                                    <div class="form-group">
+                                        <label for="editStaffName">Name</label>
+                                        <input type="text" class="form-control" id="editStaffName" placeholder="Enter name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="editStaffEmail">Email</label>
+                                        <input type="email" class="form-control" id="editStaffEmail" placeholder="Enter email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="editStaffPhone">Phone</label>
+                                        <input type="text" class="form-control" id="editStaffPhone" placeholder="Enter phone">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="editStaffPosition">Position</label>
+                                        <input type="text" class="form-control" id="editStaffPosition" placeholder="Enter position">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-<!--                pushlai-->
+
+
+                <!-- Scripts -->
+                <script src="../assets/vendors/js/vendor.bundle.base.js"></script>
+                <script src="../assets/js/off-canvas.js"></script>
+                <script src="../assets/js/misc.js"></script>
+                <script src="staff-management.js"></script>
+
+                </body>
+                <div class="row">
+                    <div class="col-lg-6 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Line chart</h4>
+                                <canvas id="lineChart" style="height:250px"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- content-wrapper ends -->
             </div>
             <!-- partial:../../partials/_footer.html -->
@@ -385,30 +457,15 @@
                             href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin templates</a> from Bootstrapdash.com</span>
                 </div>
             </footer>
-
-            <!-- partial -->
         </div>
-        <!-- main-panel ends -->
     </div>
-    <!-- page-body-wrapper ends -->
 </div>
-<!-- container-scroller -->
-<!-- plugins:js -->
-<script src="./assets/vendors/js/vendor.bundle.base.js"></script>
-<!-- endinject -->
-<!-- Plugin js for this page -->
-<script src="./assets/vendors/chart.js/Chart.min.js"></script>
-<!-- End plugin js for this page -->
-<!-- inject:js -->
-<script src="./assets/js/off-canvas.js"></script>
-<script src="./assets/js/hoverable-collapse.js"></script>
-<script src="./assets/js/misc.js"></script>
-<script src="./assets/js/settings.js"></script>
-<script src="./assets/js/todolist.js"></script>
-<!-- endinject -->
-<!-- Custom js for this page -->
-<script src="./assets/js/chart.js"></script>
-<script src="thongKeMenterMentee.js"></script>
-<!-- End custom js for this page -->
+<script src="../assets/vendors/js/vendor.bundle.base.js"></script>
+<script src="../assets/js/off-canvas.js"></script>
+<script src="../assets/js/hoverable-collapse.js"></script>
+<script src="../assets/js/misc.js"></script>
+<script src="../assets/js/settings.js"></script>
+<script src="../assets/js/todolist.js"></script>
+<script src="staff-management.js"></script>
 </body>
 </html>

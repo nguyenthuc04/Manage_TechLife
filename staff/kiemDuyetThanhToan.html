@@ -272,6 +272,88 @@
 
                 <!--                    code nội dung chức năng ở đây-->
 
+                <div class="container-scroller">
+                    <div class="container-fluid page-body-wrapper">
+                        <div class="main-panel">
+                            <div class="content-wrapper">
+                                <div class="page-header">
+                                    <h3 class="page-title">Duyệt Thanh Toán</h3>
+
+                                </div>
+
+                                <!-- Bảng yêu cầu Premium -->
+                                <div class="row">
+                                    <div class="col-lg-12 grid-margin stretch-card">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="card-title">Danh sách yêu cầu thanh toán</h4>
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>ID</th>
+                                                            <th>Tên</th>
+                                                            <th>Ảnh người dùng</th>
+                                                            <th>Ảnh yêu cầu</th>
+                                                            <th>Hành động</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="premiumRequestsTable">
+                                                        <!-- Các dòng yêu cầu sẽ được thêm vào đây -->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal hiển thị ảnh chi tiết -->
+                <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="imageModalLabel">Ảnh yêu cầu chi tiết</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <img id="modalImage" src="" alt="Request Image" style="width: 100%; height: auto;">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal để xác nhận duyệt mentor -->
+                <div class="modal fade" id="approveMentorModal" tabindex="-1" role="dialog" aria-labelledby="approveMentorModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="approveMentorModalLabel">Xác nhận duyệt Mentor</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Bạn có chắc chắn muốn duyệt yêu cầu này và chuyển người dùng thành Mentor?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                <button type="button" class="btn btn-primary" id="confirmApproveMentorBtn">Xác nhận</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <h2 style="font-family: Arial,serif;font-weight: bold">Kiểm duyệt thanh toán</h2>
 
 
@@ -311,6 +393,7 @@
 <!-- Custom js for this page -->
 <script src="../assets/js/chart.js"></script>
 <script src="./kiemDuyetThanhToan.js"></script>
+<script src="../config.js"></script>
 <!-- End custom js for this page -->
 </body>
 </html>

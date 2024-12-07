@@ -7,7 +7,9 @@ var chart1_KH
 const dataAllKH = document.getElementById("data-khoahoc-all");
 const dataDhdKH = document.getElementById("data-khoahoc-danghd");
 const dataDktKH = document.getElementById("data-khoahoc-dakt");
-var stateActive
+
+const ip = localStorage.getItem('ipAddress');
+const API_URL = `http://${ip}:3000/`;
 
 if (!user || !token) {
     // Nếu không có user hoặc token, chuyển hướng về login
@@ -57,99 +59,6 @@ const logout = () => {
     }
 };
 
-const ip = localStorage.getItem('ipAddress');
-const API_URL = `http://${ip}:3000`;
-// Hàm fetch danh sách khóa học
-async function fetchCourses() {
-    try {
-        // Gọi API /getListCourses
-        const response = await fetch(`${API_URL}/getListCourses`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        // Kiểm tra trạng thái phản hồi
-        if (!response.ok) {
-            const errorData = await response.json();
-            console.error('Lỗi từ server:', errorData.message);
-            return;
-        }
-
-        // Lấy dữ liệu danh sách khóa học
-        const courses = await response.json();
-
-        dataAllKH.innerHTML = courses.length
-
-        // Lấy ngày hiện tại
-        const today = new Date();
-
-        // Biến đếm số khóa học có ngày lớn hơn ngày hiện tại
-        let countFutureCourses = 0;
-
-        // Duyệt qua danh sách khóa học và so sánh ngày
-        courses.forEach(course => {
-            const courseDate = new Date(course.date); // Chuyển ngày của khóa học thành đối tượng Date
-            if (courseDate <= today) {
-                countFutureCourses++; // Tăng biến đếm nếu ngày khóa học lớn hơn ngày hiện tại
-            }
-        });
-
-        let slKt = Number(courses.length) - Number(countFutureCourses)
-        dataDhdKH.innerHTML = countFutureCourses;
-        dataDktKH.innerHTML = slKt
-
-    } catch (error) {
-        console.error('Lỗi khi gọi API:', error);
-    }
-}
-
-async function fetchCoursesByDate(startDate, endDate) {
-    try {
-        const response = await fetch(`${API_URL}/getCoursesByDate?startDate=${startDate}&endDate=${endDate}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            console.error('Lỗi từ server:', errorData.message);
-            return undefined; // Trả về undefined khi có lỗi
-        }
-
-        // Trả về dữ liệu phản hồi
-        const coursesCount = await response.json();
-        return coursesCount;
-    } catch (error) {
-        console.error('Lỗi khi gọi API:', error);
-        return undefined; // Trả về undefined khi xảy ra lỗi
-    }
-}
-
-const getDateNow = () => {
-    // Lấy ngày hiện tại
-    const currentDate = new Date();
-
-// Lấy từng thành phần ngày, tháng, năm
-    const year = currentDate.getFullYear();
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0, cần +1
-    const day = String(currentDate.getDate()).padStart(2, '0'); // Đảm bảo luôn có 2 chữ số
-
-// Định dạng ngày theo kiểu YYYY-MM-DD
-    const formattedDate = `${year}-${month}-${day}`;
-
-    return formattedDate
-}
-
-
-fetchCourses().then(r => {
-    console.log("get data ok")
-})
-
-
 document.addEventListener("DOMContentLoaded", function () {
     // Dữ liệu cho biểu đồ 1
     var ctx1 = document.getElementById('lineChart1_KH').getContext('2d');
@@ -179,67 +88,188 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-const updateChartData = (chart, newDatasets) => {
+
+async function fetchCourses() {
+    try {
+        const response = await fetch(`${API_URL}getListCourses`);
+
+        if (!response.ok) {
+            throw new Error('Error fetching courses');
+        }
+
+        const courses = await response.json();
+        dataAllKH.innerHTML = courses.length;
+        calculateCourseStatus(courses)
+    } catch (error) {
+        console.error('Error fetching courses:', error);
+    }
+}
+
+
+
+function calculateCourseStatus(courses) {
+    const currentDate = new Date(); // Lấy ngày hiện tại theo múi giờ UTC+0 (trong trình duyệt)
+
+    // Cập nhật múi giờ UTC+7
+    currentDate.setHours(currentDate.getHours() + 7);
+
+    let activeCount = 0;
+    let endedCount = 0;
+
+    courses.forEach(course => {
+
+        const courseEndDate = parseDate(course.endDate); // Chuyển đổi endDate của khóa học thành đối tượng Date
+
+        // Kiểm tra xem khóa học đã kết thúc hay chưa
+        if (currentDate <= courseEndDate) {
+            activeCount++;
+        } else {
+            endedCount++;
+        }
+    });
+
+    // Log ra số khóa học đã kết thúc và đang hoạt động
+    dataDhdKH.innerHTML = activeCount;
+    dataDktKH.innerHTML = endedCount;
+}
+
+function parseDate(dateString) {
+    // Chuyển đổi định dạng dd-mm-yyyy thành đối tượng Date
+    const [day, month, year] = dateString.split('-');
+    return new Date(`${year}-${month}-${day}T23:59:59.999Z`); // Đặt giờ cuối ngày để so sánh đúng
+}
+
+fetchCourses()
+
+async function fetchCourseCountByDate(filterType, startDate = null, endDate = null) {
+    try {
+        let url = `${API_URL}getCoursesByStartDate?filterType=${filterType}`;
+
+        // Thêm tham số ngày bắt đầu và kết thúc nếu là chế độ tùy chỉnh
+        if (filterType === "custom" && startDate && endDate) {
+            url += `&startDate=${startDate}&endDate=${endDate}`;
+            console.log(url);
+        }
+
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error(`API call failed with status: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        if (result && result.data) {
+            return result.data;
+        } else {
+            throw new Error('API response does not contain expected data');
+        }
+    } catch (error) {
+        console.error('Lỗi khi gọi API:', error.message);
+    }
+}
+
+const updateChartDataKH = (chart, newDatasets) => {
     // Cập nhật datasets
     chart.data.datasets = newDatasets;
     // Cập nhật lại biểu đồ
     chart.update();
 };
 
-const updateChartDataLabel = (chart, newLabels) => {
+const updateChartDataLabelKH = (chart, newLabels, newDatasets) => {
     // Cập nhật labels
     chart.data.labels = newLabels;
     // Cập nhật lại biểu đồ
     chart.update();
 };
 
-// Gắn sự kiện click vào từng item
-dropdownMenu.addEventListener("click", async function (event) {
-    // Kiểm tra xem người dùng click vào item nào
-    const target = event.target;
-    event.preventDefault()
+function updateChartKH(chart, data) {
+    const labels = data.map(item => formatDateKH(item.date));
+    const counts = data.map(item => item.courses.length);
 
-    // Nếu item có class "dropdown-item", lấy dữ liệu
+    console.log(counts)
+
+    if (counts.length === 1) {
+        counts.push(0); // Thêm một điểm giả với giá trị 0 để tạo không gian trên biểu đồ
+        labels.push("");  // Thêm label trống cho điểm giả
+    }
+
+    updateChartDataLabelKH(chart, labels);
+    updateChartDataKH(chart, [
+        {
+            label: 'Số lượng khóa học',
+            data: counts,
+            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderWidth: 1,
+        },
+    ]);
+}
+
+async function handleViewSelection2(selectedValue) {
+    switch (selectedValue) {
+        case "ngay_kh": {
+            document.getElementById("form_date_custom2").style.display = "none";
+            const courseData = await fetchCourseCountByDate("day");
+            updateChartKH(chart1_KH, courseData);
+            break;
+        }
+        case "tuan_kh": {
+            document.getElementById("form_date_custom2").style.display = "none";
+            const courseData = await fetchCourseCountByDate("week");
+            updateChartKH(chart1_KH, courseData);
+            break;
+        }
+        case "thang_kh": {
+            document.getElementById("form_date_custom2").style.display = "none";
+            const courseData = await fetchCourseCountByDate("month");
+            updateChartKH(chart1_KH, courseData);
+            break;
+        }
+        case "tuy-chinh_kh": {
+            document.getElementById("form_date_custom2").style.display = "block";
+
+            document.getElementById("submitButtonKH").addEventListener("click", async () => {
+                const startDate = document.getElementById("startDateKH").value;
+                const endDate = document.getElementById("endDateKH").value;
+
+                if (!startDate || !endDate) {
+                    alert("Vui lòng chọn đầy đủ ngày bắt đầu và ngày kết thúc!");
+                    return;
+                }
+
+                const courseData = await fetchCourseCountByDate("custom", startDate, endDate);
+                updateChartKH(chart1_KH, courseData);
+            });
+            break;
+        }
+        default:
+            console.error("Không xác định chế độ xem");
+    }
+}
+
+handleViewSelection2("tuan_kh")
+resultDisplay.textContent = `Chế độ xem: Tuần`;
+
+function formatDateKH(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');  // Lấy ngày và thêm số 0 nếu ngày < 10
+    const month = String(date.getMonth() + 1).padStart(2, '0');  // Lấy tháng, tháng bắt đầu từ 0 nên phải cộng thêm 1
+    return `${day}/${month}`;
+}
+
+dropdownMenu.addEventListener("click", function (event) {
+    const target = event.target;
     if (target.classList.contains("dropdown-item")) {
         const selectedValue = target.getAttribute("data-value");
         const selectedText = target.textContent.trim();
-
         resultDisplay.textContent = `Chế độ xem: ${selectedText}`;
-
-        if (selectedValue === "ngay_kh") {
-            try {
-                // Gọi API để lấy dữ liệu
-                const coursesCount = await fetchCoursesByDate(getDateNow(), getDateNow());
-
-                // Kiểm tra nếu dữ liệu hợp lệ
-                if (coursesCount !== undefined) {
-                    // Cập nhật label cho biểu đồ
-                    updateChartDataLabel(chart1_KH, ["Hôm nay", "Ngày mai"]);
-
-                    // Cập nhật dữ liệu vào biểu đồ
-                    updateChartData(chart1_KH, [
-                        {
-                            label: 'Số lượng',
-                            data: [coursesCount,coursesCount], // Thay coursesCount vào dữ liệu
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderWidth: 1
-                        }
-                    ]);
-                } else {
-                    console.error('Không nhận được dữ liệu hợp lệ từ API.');
-                }
-            } catch (error) {
-                console.error('Lỗi khi cập nhật biểu đồ:', error);
-            }
-        } else if (selectedValue === "tuan_kh") {
-            // Xử lý cho tuần
-        } else if (selectedValue === "thang_kh") {
-            // Xử lý cho tháng
-        } else if (selectedValue === "tuy-chinh_kh") {
-            // Xử lý cho tùy chỉnh
-        }
+        handleViewSelection2(selectedValue);
     }
 });
+
+
+
+
 
 
