@@ -203,15 +203,18 @@ async function fetchMostLikedPosts() {
     }
 }
 
+let engagementChart; // Declare a variable to hold the chart instance
+
 async function fetchEngagementStats() {
     try {
-        const response = await fetch(`${API_URL}/statsPostReel`); // Thay URL API của bạn
+        const response = await fetch(`${API_URL}/statsPostReel`);
         if (!response.ok) {
             throw new Error('Failed to fetch data');
         }
         const data = await response.json();
 
-        // Lấy dữ liệu thống kê
+        console.log('Fetched data:', data); // Log the fetched data
+
         const totalPosts = data.totalPosts;
         const totalLikesPosts = data.totalLikesPosts;
         const totalCommentsPosts = data.totalCommentsPosts;
@@ -219,9 +222,15 @@ async function fetchEngagementStats() {
         const totalLikesReels = data.totalLikesReels;
         const totalCommentsReels = data.totalCommentsReels;
 
-        // Vẽ biểu đồ
         const ctx = document.getElementById('engagementChart').getContext('2d');
-        new Chart(ctx, {
+
+        // Destroy the existing chart instance if it exists
+        if (engagementChart) {
+            engagementChart.destroy();
+        }
+
+        // Create a new chart instance
+        engagementChart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: ['Bài viết', 'Reels', 'Lượt thích Bài viết', 'Lượt thích Reels', 'Bình luận Bài viết', 'Bình luận Reels'],
@@ -235,8 +244,8 @@ async function fetchEngagementStats() {
                         totalCommentsPosts,
                         totalCommentsReels
                     ],
-                    backgroundColor: ['#3498db', '#1abc9c', '#9b59b6', '#e74c3c', '#f1c40f', '#2ecc71'],
-                    borderColor: ['#2980b9', '#16a085', '#8e44ad', '#c0392b', '#f39c12', '#27ae60'],
+                    backgroundColor: ['#3498db', '#1abc9c', '#3498db', '#1abc9c', '#3498db', '#1abc9c'],
+                    borderColor: ['#2980b9', '#16a085', '#2980b9', '#16a085', '#2980b9', '#16a085'],
                     borderWidth: 1
                 }]
             },
