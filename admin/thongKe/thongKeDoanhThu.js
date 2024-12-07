@@ -152,22 +152,12 @@ async function fetchDoanhThuByDateAndType(filterType, startDate = null, endDate 
         // Chuyển phản hồi thành JSON
         const data = await response.json();
 
-        if (data.success) {
-            const result = data.data;
-            const totalRevenue = data.totalRevenue;
-
-            if (type === "update") {
-                dataNangCap.textContent = `${totalRevenue}`;
-            } else if (type === "maintain") {
-                dataDuyTri.textContent = `${totalRevenue}`
-            }
-        } else {
-
-        }
+        return data.totalRevenue
     } catch (error) {
         console.error('Lỗi khi gọi API:', error.message);
     }
 }
+
 
 async function getTotalAndDate(filterType, startDate = null, endDate = null) {
     try {
@@ -216,24 +206,35 @@ async function handleViewSelection3(selectedValue) {
             document.getElementById("form_date_custom_dt").style.display = "none";
             const data = await getTotalAndDate("day"); // Lấy dữ liệu
             updateChartDT(barChart, data); // Cập nhật biểu đồ
-            fetchDoanhThuByDateAndType("day", "", "", "update")
-            fetchDoanhThuByDateAndType("day", "", "", "maintain")
+            let dataUpdate = await  fetchDoanhThuByDateAndType("day", "", "", "update")
+            let dataMaintain = await fetchDoanhThuByDateAndType("day", "", "", "maintain")
+            dataDuyTri.textContent = dataMaintain
+            dataNangCap.textContent = dataUpdate
             break;
         }
         case "tuan_dt": {
             document.getElementById("form_date_custom_dt").style.display = "none";
             const data = await getTotalAndDate("week");
             updateChartDT(barChart, data);
-            fetchDoanhThuByDateAndType("week", "", "", "update")
-            fetchDoanhThuByDateAndType("week", "", "", "maintain")
+            // fetchDoanhThuByDateAndType("week", "", "", "update")
+            // fetchDoanhThuByDateAndType("week", "", "", "maintain")
+            let dataUpdate = await fetchDoanhThuByDateAndType("week", "", "", "update")
+            let dataMaintain = await fetchDoanhThuByDateAndType("week", "", "", "maintain")
+            dataDuyTri.textContent = dataMaintain
+            dataNangCap.textContent = dataUpdate
+
             break;
         }
         case "thang_dt": {
             document.getElementById("form_date_custom_dt").style.display = "none";
             const data = await getTotalAndDate("month");
             updateChartDT(barChart, data);
-            fetchDoanhThuByDateAndType("month", "", "", "update")
-            fetchDoanhThuByDateAndType("month", "", "", "maintain")
+            // fetchDoanhThuByDateAndType("month", "", "", "update")
+            // fetchDoanhThuByDateAndType("month", "", "", "maintain")
+            let dataUpdate = await fetchDoanhThuByDateAndType("month", "", "", "update")
+            let dataMaintain = await fetchDoanhThuByDateAndType("month", "", "", "maintain")
+            dataDuyTri.textContent = dataMaintain
+            dataNangCap.textContent = dataUpdate
             break;
         }
         case "tuy-chinh_dt": {
@@ -250,8 +251,12 @@ async function handleViewSelection3(selectedValue) {
 
                 const data = await getTotalAndDate("custom", startDate, endDate);
                 updateChartDT(barChart, data);
-                fetchDoanhThuByDateAndType("custom", "", "", "update")
-                fetchDoanhThuByDateAndType("custom", "", "", "maintain")
+                // fetchDoanhThuByDateAndType("custom", "", "", "update")
+                // fetchDoanhThuByDateAndType("custom", "", "", "maintain")
+                let dataUpdate = await fetchDoanhThuByDateAndType("custom", startDate, endDate, "update")
+                let dataMaintain = await fetchDoanhThuByDateAndType("custom", startDate, endDate, "maintain")
+                dataDuyTri.textContent = dataMaintain
+                dataNangCap.textContent = dataUpdate
 
             });
             break;

@@ -48,11 +48,14 @@ const logout = () => {
         window.location.href = "../login.html"; // Đổi đường dẫn đến trang đăng nhập của bạn
     }
 };
-const API_URL = "http://26.187.200.144:3000";
+
+const ip = localStorage.getItem('ipAddress');
+const API_URL = `http://${ip}:3000`;
 
 // Hàm lấy danh sách yêu cầu premium từ API và hiển thị trong bảng
 async function loadPremiumRequests() {
     const response = await fetch(`${API_URL}/getPremiumRequests`);
+
     const data = await response.json();
 
     const premiumRequestsTable = document.getElementById('premiumRequestsTable');
@@ -78,7 +81,7 @@ async function loadPremiumRequests() {
                         <img src="${request.imageUrl}" alt="Request Image" class="request-image" onclick="viewImage('${request.imageUrl}')">
                     </td>
                     <td>
-                        <button class="btn btn-success" onclick="showApproveModal('${request._id}')">Duyệt</button>
+                        <button class="btn btn-success" onclick="showApproveModal('${request._id}', '${request.userId}')">Duyệt</button>
                         <button class="btn btn-danger" onclick="deleteRequest('${request._id}')">Xóa</button>
                     </td>
                 `;
@@ -99,21 +102,34 @@ function viewImage(imageUrl) {
 }
 
 // Hiển thị modal để xác nhận duyệt mentor
-function showApproveModal(requestId) {
+async function showApproveModal(requestId,idUser) {
+
+    let AccountType = await getAccountType(idUser)
+    let typeAcc
+    if(AccountType === "mentor") {
+        typeAcc = "maintain"
+    } else if (AccountType === "mentee") {
+        typeAcc = "update"
+    }
+
     const approveBtn = document.getElementById('confirmApproveMentorBtn');
-    approveBtn.onclick = () => approveMentor(requestId);
+    approveBtn.onclick = () => approveMentor(requestId, idUser,typeAcc);
     $('#approveMentorModal').modal('show');
 }
 
 // Xác nhận duyệt mentor
-async function approveMentor(requestId) {
+async function approveMentor(requestId, idUser, accountType) {
     const response = await fetch(`${API_URL}/approveMentor/${requestId}`, {
         method: 'POST',
     });
     const data = await response.json();
 
+
+    console.log(idUser,accountType)
+
     if (data.success) {
         alert('Người dùng đã được duyệt thành mentor thành công!');
+        createRevenue(idUser,accountType,"500000","ok")
         loadPremiumRequests();  // Tải lại danh sách yêu cầu premium
         $('#approveMentorModal').modal('hide');  // Đóng modal
     } else {
@@ -133,6 +149,53 @@ async function deleteRequest(requestId) {
         loadPremiumRequests();  // Tải lại danh sách yêu cầu premium
     } else {
         alert('Đã xảy ra lỗi khi xóa yêu cầu.');
+    }
+}
+
+function createRevenue(idUser,type,price,idStaff) {
+    // Tạo đối tượng dữ liệu
+    const revenueData = {
+        idUser,
+        type,
+        price,
+        idStaff
+    };
+
+    // Gửi yêu cầu POST tới API
+    fetch(`${API_URL}/createRevenue`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(revenueData)
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Hiển thị kết quả trả về từ server
+            if (data.success) {
+                console.log('Revenue created successfully:', data.revenue);
+            } else {
+                console.log('Error:', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+async function getAccountType (id) {
+    try {
+        const response = await fetch(`${API_URL}/getUser/${id}`);
+        if (!response.ok) {
+            throw new Error('Không thể gọi API');
+        }
+
+        const data = await response.json();
+        const accountType = data?.user?.accountType || 'Không có thông tin accountType';
+
+        return accountType
+    } catch (error) {
+        console.error('Lỗi:', error);
     }
 }
 
