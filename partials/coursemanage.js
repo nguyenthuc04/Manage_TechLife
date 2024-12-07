@@ -1,10 +1,9 @@
-// URL của API (thay đổi nếu cần)
-const API_URL = "http://26.187.200.144:3000";
-
 //Hàm loadList
+import { API_URL_TONG } from './ip.js';
+
 const loadCourseList = async () => {
     try {
-        const response = await fetch(`${API_URL}/getListCourses`);
+        const response = await fetch(`${API_URL_TONG}/getListCourses`);
         if (!response.ok) throw new Error("Không thể tải danh sách khoá học");
 
         const coursesList = await response.json();
@@ -46,7 +45,7 @@ const addCourse = async (event) => {
     const idUser = document.getElementById("courseIdUser").value;
 
     try {
-        const response = await fetch(`${API_URL}/addCourse`, {
+        const response = await fetch(`${API_URL_TONG}/addCourse`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -72,7 +71,8 @@ const addCourse = async (event) => {
 // Hàm chỉnh sửa khóa học: Lấy thông tin khóa học và hiển thị trong modal
 const editCourse = async (id) => {
     try {
-        const response = await fetch(`${API_URL}/getCourseById/${id}`);
+        console.log("Edit click");
+        const response = await fetch(`${API_URL_TONG}/getCourseById/${id}`);
         if (!response.ok) throw new Error("Không thể lấy thông tin khóa học");
 
         const course = await response.json();
@@ -102,7 +102,7 @@ const deleteCourse = async (id) => {
     if (!confirm("Bạn có chắc chắn muốn xóa khóa học này không?")) return;
 
     try {
-        const response = await fetch(`${API_URL}/deleteCourse/${id}`, { method: "DELETE" });
+        const response = await fetch(`${API_URL_TONG}/deleteCourse/${id}`, { method: "DELETE" });
         if (!response.ok) throw new Error("Không thể xóa khóa học.");
         alert("Khóa học đã được xóa thành công!");
         loadCourseList();  // Tải lại danh sách khóa học sau khi xóa
@@ -118,8 +118,3 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("addCourseForm").addEventListener("submit", addCourse); // Lắng nghe sự kiện submit form thêm nhân viên
 
 });
-
-fetch('http://192.168.88.1:3000/getListCourses')
-    .then(response => response.json())
-    .then(data => console.log('Dữ liệu:', data))
-    .catch(error => console.error('Lỗi fetch:', error));
