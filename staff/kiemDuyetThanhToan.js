@@ -45,7 +45,7 @@ const logout = () => {
         localStorage.removeItem('token');
 
         // Chuyển hướng về trang đăng nhập
-        window.location.href = "../login.html"; // Đổi đường dẫn đến trang đăng nhập của bạn
+        window.location.href = "../login.html";
     }
 };
 
@@ -117,25 +117,80 @@ async function showApproveModal(requestId,idUser) {
     $('#approveMentorModal').modal('show');
 }
 
-// Xác nhận duyệt mentor
 async function approveMentor(requestId, idUser, accountType) {
-    const response = await fetch(`${API_URL}/approveMentor/${requestId}`, {
-        method: 'POST',
-    });
-    const data = await response.json();
+    try {
+        const response = await fetch(`${API_URL}/approveMentor/${requestId}`, {
+            method: 'POST',
+        });
+        const data = await response.json();
 
+        console.log('API response:', data); // Debug thông tin trả về từ server
+        if (!data.success) {
+            alert('Không thể duyệt mentor: ' + (data.message || 'Unknown error'));
+            return;
+        }
 
-    console.log(idUser,accountType)
+        const userPremiumResponse = await fetch(`${API_URL}/getUserPremium/${idUser}`);
+        const userPremiumData = await userPremiumResponse.json();
 
-    if (data.success) {
-        alert('Người dùng đã được duyệt thành mentor thành công!');
-        createRevenue(idUser,accountType,"500000","ok")
-        loadPremiumRequests();  // Tải lại danh sách yêu cầu premium
-        $('#approveMentorModal').modal('hide');  // Đóng modal
-    } else {
-        alert(data.message || 'Đã xảy ra lỗi khi duyệt mentor.');
+        console.log('UserPremium data trả về:', userPremiumData); // Debug dữ liệu UserPremium
+
+        if (userPremiumResponse.ok) {
+            let endDate = new Date();
+            if (userPremiumData?.success && userPremiumData?.data?.endDate) {
+                endDate = new Date(userPremiumData.data.endDate);
+                endDate.setDate(endDate.getDate() + 30);
+            } else {
+                alert('Không tìm thấy thông tin UserPremium hợp lệ.');
+                return;
+            }
+
+            const premiumData = {
+                userId: idUser,
+                userName: data.data.user?.name || 'Unknown',
+                startDate: new Date().toISOString(),
+                endDate: endDate.toISOString(),
+            };
+
+            const premiumResponse = await fetch(`${API_URL}/updateOrCreateUserPremium`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(premiumData),
+            });
+
+            const premiumResult = await premiumResponse.json();
+            console.log('Premium API response:', premiumResult); // Debug thông tin premiumResponse
+
+            if (premiumResult.success) {
+                alert('Cập nhật thông tin UserPremium thành công!');
+
+                // Xóa yêu cầu khỏi bảng Premium
+                const deleteResponse = await fetch(`${API_URL}/deletePremiumRequest/${requestId}`, {
+                    method: 'DELETE',
+                });
+
+                const deleteResult = await deleteResponse.json();
+
+                createRevenue(idUser, accountType, "500000", "ok");
+                loadPremiumRequests();
+                $('#approveMentorModal').modal('hide');
+            } else {
+                alert(premiumResult.message || 'Không thể cập nhật thông tin UserPremium');
+            }
+        } else {
+            alert('Không thể lấy thông tin UserPremium.');
+        }
+    } catch (error) {
+        console.error('Lỗi xảy ra:', error);
+        alert('Đã xảy ra lỗi trong quá trình xử lý.');
     }
 }
+
+
+
+
+
+
 
 // Xóa yêu cầu
 async function deleteRequest(requestId) {

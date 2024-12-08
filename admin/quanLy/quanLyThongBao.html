@@ -272,11 +272,85 @@
 
                 <!--                    code nội dung chức năng ở đây-->
 
-                <h2 style="font-family: Arial,serif;font-weight: bold">Quản lý thông báo</h2>
+                <div class="container-scroller">
+
+                    <div class="container-fluid page-body-wrapper">
+
+                        <!-- Main content -->
+                        <div class="main-panel">
+                            <div class="content-wrapper">
+                                <div class="page-header">
+                                    <h3 class="page-title"> Quản lý thông báo </h3>
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="#"></a></li>
+                                            <li class="breadcrumb-item active" aria-current="page"></li>
+                                        </ol>
+                                    </nav>
+                                </div>
+
+                                <!-- Add Staff Button -->
+                                <div class="row mb-4">
+                                    <div class="col">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNotiModal">
+                                            <i class="mdi mdi-bell"></i> Thêm thông báo
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Noti Table -->
+                                <div class="row">
+                                    <div class="col-lg-12 grid-margin stretch-card">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="card-title">Danh sách thông báo</h4>
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>ID</th>
+                                                            <th>Nội dung</th>
+                                                            <th>Thời gian</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="notificationTable">
+                                                        <!-- Staff rows will be dynamically added here -->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Footer -->
+
+                        </div>
+                    </div>
+                </div>
 
 
-
-
+                <div class="modal fade" id="addNotiModal" tabindex="-1" role="dialog" aria-labelledby="addNotiModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addNotiModalLabel">Thêm thông báo tới người dùng</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="addNotiForm">
+                                    <div class="form-group">
+                                        <label for="notiContent">Name</label>
+                                        <input type="text" class="form-control" id="notiContent" placeholder="Nhập nội dung thông báo">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Gửi</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- content-wrapper ends -->
             </div>
             <!-- partial:../../partials/_footer.html -->
@@ -292,6 +366,7 @@
         </div>
         <!-- main-panel ends -->
     </div>
+
     <!-- page-body-wrapper ends -->
 </div>
 <!-- container-scroller -->

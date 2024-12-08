@@ -218,7 +218,7 @@
             </div>
             <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
                 <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-                    <span class="mdi mdi-menu"></span>
+                    <span style="color: white" class="mdi mdi-menu"></span>
                 </button>
 
                 <ul class="navbar-nav navbar-nav-right">
@@ -272,7 +272,7 @@
                 <div class="page-header"></div>
 
                 <!--                    code nội dung chức năng ở đây-->
-                <h2 style="font-family: Arial,serif;font-weight: bold">Hoạt động gần đây</h2>
+                <h2 style="font-family: Arial,serif;font-weight: bold;color: #0c0c0c">Hoạt động gần đây</h2>
                 <div style="text-align: right; margin-bottom: 30px;margin-top: 10px" class="dropdown">
                     <button onclick="SelectedView()" id="dropdownMenuButton" class="btn btn-primary dropdown-toggle" type="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -288,10 +288,10 @@
                 </div>
 
                 <div id="form_date_custom" style="margin-bottom: 10px;display: none">
-                    <label for="startDate">Từ ngày:</label>
+                    <label style="color: #0c0c0c" for="startDate">Từ ngày:</label>
                     <input type="date" id="startDate" />
 
-                    <label for="endDate">Đến ngày:</label>
+                    <label style="color: #0c0c0c" for="endDate">Đến ngày:</label>
                     <input type="date" id="endDate" />
                     <button id="submitButton">Tìm kiếm</button>
                 </div>
@@ -299,8 +299,8 @@
                 <div class="row">
                     <div class="col-lg-6 grid-margin stretch-card">
                         <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Mentor</h4>
+                            <div class="card-body" style="background-color: whitesmoke">
+                                <h4 style="color: red" class="card-title">Mentor</h4>
                                 <canvas id="lineChart1" style="height:250px"></canvas>
                             </div>
                         </div>
@@ -308,27 +308,27 @@
 
                     <div class="col-lg-6 grid-margin stretch-card">
                         <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Mentee</h4>
+                            <div class="card-body" style="background-color: whitesmoke">
+                                <h4 style="color: blue;" class="card-title">Mentee</h4>
                                 <canvas id="lineChart2" style="height:250px"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <h2 style="font-family: Arial,serif;font-weight: bold;margin-bottom: 40px">Tổng số user</h2>
+                <h2 style="font-family: Arial,serif;font-weight: bold;margin-bottom: 40px;color: #0c0c0c">Tổng số user</h2>
 
                 <div class="row">
                     <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
+                        <div class="card" >
+                            <div class="card-body" style="background-color: gainsboro">
                                 <div class="row">
                                     <div class="col-12 d-flex justify-content-center align-items-center">
                                         <div class="text-center">
                                             <!-- Icon -->
                                             <div style="font-size: 50px;color: red" class="mdi mdi-account"></div>
                                             <!-- Số lượng Mentor -->
-                                            <h3 id="data-mentor" class="mb-0" style="font-size: 50px;">0</h3>
+                                            <h3 id="data-mentor" class="mb-0" style="font-size: 50px;color: red">0</h3>
                                             <!-- Text Menter -->
                                             <h3 style="color: red; margin-bottom: 30px;margin-top: 10px">Mentor</h3>
                                         </div>
@@ -341,14 +341,14 @@
 
                     <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
                         <div class="card">
-                            <div class="card-body">
+                            <div class="card-body" style="background-color: wheat">
                                 <div class="row">
                                     <div class="col-12 d-flex justify-content-center align-items-center">
                                         <div class="text-center">
                                             <!-- Icon -->
                                             <div style="font-size: 50px;color: blue" class="mdi mdi-account"></div>
                                             <!-- Số lượng Mentor -->
-                                            <h3 id="data-mentee" class="mb-0" style="font-size: 50px;">0</h3>
+                                            <h3 id="data-mentee" class="mb-0" style="font-size: 50px;color: blue">0</h3>
                                             <!-- Text Menter -->
                                             <h3 style="color: blue; margin-bottom: 30px;margin-top: 10px">Mentee</h3>
                                         </div>
