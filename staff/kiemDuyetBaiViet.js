@@ -231,7 +231,7 @@ function fetchPosts() {
                         ${imagesHtml}
                     </div>
                     <div class="post-actions">
-                        <button onclick="acceptPost('${post._id}')" class="accept-button">Chấp nhận</button>
+                        <button onclick="acceptPost('${post._id}')" class="accept-button">Đã kiểm tra</button>
                         <button onclick="deletePost('${post._id}')" class="reject-button">Từ chối</button>
                     </div>
                 `;

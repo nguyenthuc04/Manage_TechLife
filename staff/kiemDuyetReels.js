@@ -201,7 +201,7 @@ function fetchReels() {
                         </div>
                     </div>
                     <div class="post-actions">
-                        <button onclick="acceptReel('${reel._id}')" class="accept-button">Chấp nhận</button>
+                        <button onclick="acceptReel('${reel._id}')" class="accept-button">Đã kiểm tra</button>
                         <button onclick="deleteReel('${reel._id}')" class="reject-button">Từ chối</button>
                     </div>
                 `;
