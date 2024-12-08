@@ -48,3 +48,66 @@ const logout = () => {
         window.location.href = "../../login.html"; // Đổi đường dẫn đến trang đăng nhập của bạn
     }
 };
+
+const ip = localStorage.getItem('ipAddress');
+const API_URL = `http://${ip}:3000`;
+// Hàm tải danh sách thông báo
+const loadNotificationList = async () => {
+    try {
+        const response = await fetch(`${API_URL}/getNotificationsBE`);
+        if (!response.ok) throw new Error("Không thể tải danh sách thông báo.");
+
+        const notiList = await response.json();
+        console.log("Dữ liệu trả về từ API:", notiList); // Kiểm tra dữ liệu trả về
+
+        const tableBody = document.getElementById("notificationTable");
+        tableBody.innerHTML = ""; // Xóa các dòng cũ
+
+        notiList.notifications.forEach((noti) => {
+            const row = `
+        <tr>
+            <td>${noti._id}</td>
+            <td>${noti.contentId}</td>
+            <td>${new Date(new Date(noti.time).getTime() - 7 * 60 * 60 * 1000).toLocaleString()}</td>
+        </tr>
+    `;
+            tableBody.innerHTML += row;
+        });
+    } catch (error) {
+        console.error("Lỗi khi tải danh sách thông báo:", error);
+        alert("Lỗi khi tải danh sách thông báo!");
+    }
+};
+
+
+// Hàm thêm nhân viên
+const addNoti = async (event) => {
+    event.preventDefault();
+    const contentId = document.getElementById("notiContent").value;
+
+
+    try {
+        const response = await fetch(`${API_URL}/createGlobalNotification`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                contentId,
+            }),
+        });
+
+        if (!response.ok) throw new Error("Không thể thêm thông báo.");
+        alert("Thông báo đã được thêm thành công!");
+        document.getElementById("addNotiForm").reset();
+        $('#addNotiModal').modal('hide');
+        loadNotificationList();  // Tải lại danh sách nhân viên sau khi thêm mới
+    } catch (error) {
+        console.error(error);
+        alert("Lỗi khi thêm thông báo!");
+    }
+};
+// Khởi tạo trang
+document.addEventListener("DOMContentLoaded", () => {
+    loadNotificationList();  // Tải danh sách thông báo khi trang được tải
+    document.getElementById("addNotiForm").addEventListener("submit", addNoti);
+});
+

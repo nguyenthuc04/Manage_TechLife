@@ -48,3 +48,70 @@ const logout = () => {
         window.location.href = "../login.html"; // Đổi đường dẫn đến trang đăng nhập của bạn
     }
 };
+
+const ip = localStorage.getItem('ipAddress');
+const API_URL = `http://${ip}:3000/reviewsQT`;
+
+// Function to fetch the list of pending reviews
+async function fetchPendingReviews() {
+    try {
+        const response = await fetch(`${API_URL}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch reviews');
+        }
+
+        const reviews = await response.json();
+        renderReviews(reviews);  // Render the reviews on the table
+    } catch (error) {
+        console.error('Error fetching reviews:', error);
+    }
+}
+
+// Function to render reviews in the table
+function renderReviews(reviews) {
+    const reviewList = document.getElementById("review-list");
+    reviewList.innerHTML = ''; // Clear the current list
+
+    reviews.forEach((review, index) => {
+        const row = document.createElement("tr");
+
+        // Escape the `_id` safely as a string in the function calls
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${review.idMentor}</td>
+            <td>${review.rating}</td>
+            <td>${review.comment}</td>
+            <td>${review.userId}</td>
+            <td>${review.date}</td>
+            <td>
+                <button class="btn btn-danger" onclick="deleteReview('${review._id}')">Xóa</button>
+            </td>
+        `;
+
+        reviewList.appendChild(row);
+    });
+}
+
+// Function to delete a review
+async function deleteReview(reviewId) {
+    if (confirm('Bạn có chắc chắn muốn xóa đánh giá này không?')) {
+        fetch(`${API_URL}/${reviewId}`, {
+            method: 'DELETE',
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                fetchPendingReviews();
+            })
+            .catch(error => console.error('Lỗi khi xóa đánh giá', error));
+    }
+}
+
+// Initial fetch and render the reviews when the page loads
+fetchPendingReviews();
