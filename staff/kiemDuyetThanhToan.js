@@ -93,7 +93,6 @@ async function loadPremiumRequests() {
     }
 }
 
-
 // Hiển thị ảnh chi tiết trong modal
 function viewImage(imageUrl) {
     const modalImage = document.getElementById('modalImage');
@@ -101,96 +100,59 @@ function viewImage(imageUrl) {
     $('#imageModal').modal('show');  // Show the modal with the image
 }
 
-// Hiển thị modal để xác nhận duyệt mentor
-async function showApproveModal(requestId,idUser) {
+async function showApproveModal(requestId, idUser) {
+    const AccountType = await getAccountType(idUser);
+    const typeAcc = AccountType === "mentor" ? "maintain" : "update";
 
-    let AccountType = await getAccountType(idUser)
-    let typeAcc
-    if(AccountType === "mentor") {
-        typeAcc = "maintain"
-    } else if (AccountType === "mentee") {
-        typeAcc = "update"
+    const request = await fetch(`${API_URL}/getPremiumRequest/${requestId}`);
+    const requestData = await request.json();
+    if (!requestData.success || !requestData.data) {
+        alert('Không thể lấy thông tin yêu cầu.');
+        return;
     }
 
+    const userName = requestData.data.userName;
+
     const approveBtn = document.getElementById('confirmApproveMentorBtn');
-    approveBtn.onclick = () => approveMentor(requestId, idUser,typeAcc);
+    approveBtn.onclick = () => approveMentor(requestId, idUser, userName);
     $('#approveMentorModal').modal('show');
 }
 
-async function approveMentor(requestId, idUser, accountType) {
+async function approveMentor(requestId, idUser, userName) {
     try {
-        const response = await fetch(`${API_URL}/approveMentor/${requestId}`, {
-            method: 'POST',
-        });
-        const data = await response.json();
+        // Gọi API để duyệt mentor
+        const mentorResponse = await fetch(`${API_URL}/approveMentor/${requestId}`, { method: 'POST' });
+        const mentorData = await mentorResponse.json();
 
-        console.log('API response:', data); // Debug thông tin trả về từ server
-        if (!data.success) {
-            alert('Không thể duyệt mentor: ' + (data.message || 'Unknown error'));
+        if (!mentorResponse.ok || !mentorData.success) {
+            alert(mentorData.message || 'Không thể duyệt mentor.');
             return;
         }
 
-        const userPremiumResponse = await fetch(`${API_URL}/getUserPremium/${idUser}`);
-        const userPremiumData = await userPremiumResponse.json();
+        // Gọi API để cập nhật/gia hạn UserPremium
+        const premiumResponse = await fetch(`${API_URL}/updateUserPremium`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId: idUser, userName }),
+        });
+        const premiumData = await premiumResponse.json();
 
-        console.log('UserPremium data trả về:', userPremiumData); // Debug dữ liệu UserPremium
-
-        if (userPremiumResponse.ok) {
-            let endDate = new Date();
-            if (userPremiumData?.success && userPremiumData?.data?.endDate) {
-                endDate = new Date(userPremiumData.data.endDate);
-                endDate.setDate(endDate.getDate() + 30);
-            } else {
-                alert('Không tìm thấy thông tin UserPremium hợp lệ.');
-                return;
-            }
-
-            const premiumData = {
-                userId: idUser,
-                userName: data.data.user?.name || 'Unknown',
-                startDate: new Date().toISOString(),
-                endDate: endDate.toISOString(),
-            };
-
-            const premiumResponse = await fetch(`${API_URL}/updateOrCreateUserPremium`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(premiumData),
-            });
-
-            const premiumResult = await premiumResponse.json();
-            console.log('Premium API response:', premiumResult); // Debug thông tin premiumResponse
-
-            if (premiumResult.success) {
-                alert('Cập nhật thông tin UserPremium thành công!');
-
-                // Xóa yêu cầu khỏi bảng Premium
-                const deleteResponse = await fetch(`${API_URL}/deletePremiumRequest/${requestId}`, {
-                    method: 'DELETE',
-                });
-
-                const deleteResult = await deleteResponse.json();
-
-                createRevenue(idUser, accountType, "500000", "ok");
-                loadPremiumRequests();
-                $('#approveMentorModal').modal('hide');
-            } else {
-                alert(premiumResult.message || 'Không thể cập nhật thông tin UserPremium');
-            }
-        } else {
-            alert('Không thể lấy thông tin UserPremium.');
+        if (!premiumResponse.ok || !premiumData.success) {
+            alert(premiumData.message || 'Không thể cập nhật UserPremium.');
+            return;
         }
+
+        // Xóa yêu cầu sau khi cập nhật thành công
+        await deleteRequest(requestId);
+
+        alert('Duyệt mentor và cập nhật UserPremium thành công!');
+        $('#approveMentorModal').modal('hide'); // Đóng modal
+        loadPremiumRequests(); // Tải lại danh sách yêu cầu
     } catch (error) {
-        console.error('Lỗi xảy ra:', error);
-        alert('Đã xảy ra lỗi trong quá trình xử lý.');
+        console.error('Lỗi khi duyệt mentor:', error);
+        alert('Đã xảy ra lỗi trong quá trình duyệt mentor.');
     }
 }
-
-
-
-
-
-
 
 // Xóa yêu cầu
 async function deleteRequest(requestId) {
@@ -200,45 +162,44 @@ async function deleteRequest(requestId) {
     const data = await response.json();
 
     if (data.success) {
-        alert('Yêu cầu đã bị xóa.');
-        loadPremiumRequests();  // Tải lại danh sách yêu cầu premium
+        console.log('Yêu cầu đã bị xóa.');
     } else {
-        alert('Đã xảy ra lỗi khi xóa yêu cầu.');
+        console.error('Đã xảy ra lỗi khi xóa yêu cầu:', data.message);
     }
 }
 
-function createRevenue(idUser,type,price,idStaff) {
-    // Tạo đối tượng dữ liệu
-    const revenueData = {
-        idUser,
-        type,
-        price,
-        idStaff
-    };
+// function createRevenue(idUser, type, price, idStaff) {
+//     // Tạo đối tượng dữ liệu
+//     const revenueData = {
+//         idUser,
+//         type,
+//         price,
+//         idStaff
+//     };
+//
+//     // Gửi yêu cầu POST tới API
+//     fetch(`${API_URL}/createRevenue`, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(revenueData)
+//     })
+//         .then(response => response.json())
+//         .then(data => {
+//             // Hiển thị kết quả trả về từ server
+//             if (data.success) {
+//                 console.log('Revenue created successfully:', data.revenue);
+//             } else {
+//                 console.log('Error:', data.message);
+//             }
+//         })
+//         .catch(error => {
+//             console.error('Error:', error);
+//         });
+// }
 
-    // Gửi yêu cầu POST tới API
-    fetch(`${API_URL}/createRevenue`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(revenueData)
-    })
-        .then(response => response.json())
-        .then(data => {
-            // Hiển thị kết quả trả về từ server
-            if (data.success) {
-                console.log('Revenue created successfully:', data.revenue);
-            } else {
-                console.log('Error:', data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-}
-
-async function getAccountType (id) {
+async function getAccountType(id) {
     try {
         const response = await fetch(`${API_URL}/getUser/${id}`);
         if (!response.ok) {
@@ -248,7 +209,7 @@ async function getAccountType (id) {
         const data = await response.json();
         const accountType = data?.user?.accountType || 'Không có thông tin accountType';
 
-        return accountType
+        return accountType;
     } catch (error) {
         console.error('Lỗi:', error);
     }
