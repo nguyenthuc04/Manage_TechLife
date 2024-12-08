@@ -1,2 +1,2 @@
 // Lưu IP vào localStorage
-localStorage.setItem('ipAddress', '26.187.200.144');
+localStorage.setItem('ipAddress', '192.168.88.1');
