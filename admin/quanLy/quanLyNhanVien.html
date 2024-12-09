@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>TechLife | Quản lý nhân viên</title>
+    <link rel="stylesheet" href="./stylesUser.css">
     <!-- plugins:css -->
     <link rel="stylesheet" href="../../assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="../../assets/vendors/css/vendor.bundle.base.css">
@@ -272,138 +273,43 @@
 
                 <!--                    code nội dung chức năng ở đây-->
 
-                <div class="container-scroller">
-
-                    <div class="container-fluid page-body-wrapper">
-
-                        <!-- Main content -->
-                        <div class="main-panel">
-                            <div class="content-wrapper">
-                                <div class="page-header">
-                                    <h3 class="page-title"> Staff Management </h3>
-                                    <nav aria-label="breadcrumb">
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                                            <li class="breadcrumb-item active" aria-current="page">Manage Staff</li>
-                                        </ol>
-                                    </nav>
-                                </div>
-
-                                <!-- Add Staff Button -->
-                                <div class="row mb-4">
-                                    <div class="col">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addStaffModal">
-                                            <i class="mdi mdi-account-plus"></i> Add Staff
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <!-- Staff Table -->
-                                <div class="row">
-                                    <div class="col-lg-12 grid-margin stretch-card">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <h4 class="card-title">Staff List</h4>
-                                                <div class="table-responsive">
-                                                    <table class="table table-striped">
-                                                        <thead>
-                                                        <tr>
-                                                            <th>ID</th>
-                                                            <th>Name</th>
-                                                            <th>Email</th>
-                                                            <th>Phone</th>
-                                                            <th>Position</th>
-                                                            <th>Actions</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody id="staffTable">
-                                                        <!-- Staff rows will be dynamically added here -->
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Footer -->
-                            <footer class="footer">
-                                <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright ©
-              2024</span>
-                                </div>
-                            </footer>
-                        </div>
+                <div class="container">
+                    <h1>Quản lý Nhân viên</h1>
+                    <div class="search-container">
+                        <input type="text" id="searchInput" placeholder="Tìm kiếm nhân viên">
+                        <button class="search" onclick="fetchUsers()">Tìm kiếm</button>
                     </div>
-                </div>
+                    <table id="userTable">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tài khoản</th>
+                            <th>Tên</th>
+                            <th>Biệt danh</th>
+                            <th>Loại tài khoản</th>
+                            <th>Hành động</th>
+                        </tr>
+                        </thead>
+                        <tbody id="userTableBody">
 
-
-                <div class="modal fade" id="addStaffModal" tabindex="-1" role="dialog" aria-labelledby="addStaffModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="addStaffModalLabel">Add Staff</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="addStaffForm">
-                                    <div class="form-group">
-                                        <label for="staffName">Name</label>
-                                        <input type="text" class="form-control" id="staffName" placeholder="Enter name">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="staffEmail">Email</label>
-                                        <input type="email" class="form-control" id="staffEmail" placeholder="Enter email">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="staffPhone">Phone</label>
-                                        <input type="text" class="form-control" id="staffPhone" placeholder="Enter phone">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="staffPosition">Position</label>
-                                        <input type="text" class="form-control" id="staffPosition" placeholder="Enter position">
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </form>
-                            </div>
-                        </div>
+                        </tbody>
+                    </table>
+                    <div class="pagination">
+                        <button class="pagination" onclick="prevPage()">Trang trước</button>
+                        <span id="currentPage">1</span>
+                        <button class="pagination" onclick="nextPage()">Trang sau</button>
                     </div>
-                </div>
-                <!-- Edit Staff Modal -->
-                <div class="modal fade" id="editStaffModal" tabindex="-1" role="dialog" aria-labelledby="editStaffModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="editStaffModalLabel">Edit Staff</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="editStaffForm">
-                                    <div class="form-group">
-                                        <label for="editStaffName">Name</label>
-                                        <input type="text" class="form-control" id="editStaffName" placeholder="Enter name">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="editStaffEmail">Email</label>
-                                        <input type="email" class="form-control" id="editStaffEmail" placeholder="Enter email">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="editStaffPhone">Phone</label>
-                                        <input type="text" class="form-control" id="editStaffPhone" placeholder="Enter phone">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="editStaffPosition">Position</label>
-                                        <input type="text" class="form-control" id="editStaffPosition" placeholder="Enter position">
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Update</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                    <h2 id="formTitle">Thêm Nhân viên</h2>
+                    <form id="userForm">
+                        <input type="hidden" id="userId">
+                        <input type="text" id="account" placeholder="Tài khoản" required>
+                        <input type="password" id="password" placeholder="Mật khẩu" required>
+                        <input type="text" id="name" placeholder="Tên" required>
+                        <input type="text" id="nickname" placeholder="Biệt danh" required>
+                        <input type="text" id="accountType" placeholder="Loại tài khoản" required>
+                        <button class="save" type="submit">Lưu</button>
+                        <button class="cancel" type="button" onclick="cancelForm()">Hủy</button>
+                    </form>
                 </div>
 
 
