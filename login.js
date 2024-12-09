@@ -5,7 +5,6 @@ const rememberMeCheckbox = document.getElementById("rememberMe");
 const togglePassword = document.getElementById("toggle-password");
 const regex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
 
-
 window.onload = () => {
     const savedUsername = localStorage.getItem("SaveUsername");
     const savedPassword = localStorage.getItem("SavePassword");
@@ -46,13 +45,12 @@ btnLogin.addEventListener('click', async (e) => {
 })
 
 const ip = localStorage.getItem('ipAddress');
-const API_URL = `http://${ip}:3000/`;
-
+const API_URL = `http://${ip}:3000`;
 
 const Login = async (account, password) => {
     try {
         // Gửi yêu cầu tới backend
-        const response = await fetch(`${API_URL}loginweb`, {
+        const response = await fetch(`${API_URL}/loginweb`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

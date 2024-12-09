@@ -113,7 +113,7 @@ function displayAcceptedPosts(posts) {
                     Chấp nhận lúc: ${new Date(post.acceptedAt).toLocaleString()}
                 </div>
                 <div class="post-actions">
-                    <button onclick="unarchivePost('${post._id}')" class="unarchive-button">Hủy lưu trữ</button>
+                    <button onclick="unarchivePost('${post._id}')" class="unarchive-button">Hủy</button>
                 </div>
             `;
             acceptedPostsList.appendChild(postElement);
@@ -231,7 +231,7 @@ function fetchPosts() {
                         ${imagesHtml}
                     </div>
                     <div class="post-actions">
-                        <button onclick="acceptPost('${post._id}')" class="accept-button">Chấp nhận</button>
+                        <button onclick="acceptPost('${post._id}')" class="accept-button">Đã kiểm tra</button>
                         <button onclick="deletePost('${post._id}')" class="reject-button">Từ chối</button>
                     </div>
                 `;

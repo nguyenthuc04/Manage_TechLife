@@ -1,55 +1,55 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: Arial, serif;
     line-height: 1.6;
     margin: 0;
     padding: 20px;
-    background-color: #121212;
-    color: #e0e0e0;
+    background-color: #ffffff;
+    color: #333333;
 }
 
 .container {
     max-width: 1000px;
     margin: 20px auto;
     padding: 10px;
-    background-color: #1e1e1e;
+    background-color: #f9f9f9;
     border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
     text-align: center;
     margin-bottom: 20px;
-    color: #ffffff;
-    position: sticky; /* Đảm bảo nó ở đúng vị trí khi cuộn */
-    top: 0; /* Bám sát đầu thanh bên */
-    z-index: 1001; /* Đảm bảo nó ở trên các yếu tố khác */
-    background-color: #1e1e1e;
+    color: #333333;
+    position: sticky;
+    top: 0;
+    z-index: 1001;
+    background-color: #f9f9f9;
     padding: 10px 0;
 }
 
 h1, h2 {
-    color: #ffffff;
+    color: #333333;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
-    background-color: #1e1e1e;
+    background-color: #f9f9f9;
 }
 
 table, th, td {
-    border: 1px solid #333;
+    border: 1px solid #cccccc;
 }
 
 th, td {
     text-align: left;
     padding: 12px;
-    color: #e0e0e0;
+    color: #333333;
 }
 
 th {
-    background-color: #333;
+    background-color: #e0e0e0;
 }
 
 input[type="text"],
@@ -58,15 +58,15 @@ input[type="email"] {
     width: 100%;
     padding: 8px;
     margin-bottom: 10px;
-    background-color: #333;
-    color: #e0e0e0;
-    border: 1px solid #555;
+    background-color: #ffffff;
+    color: #333333;
+    border: 1px solid #cccccc;
     border-radius: 4px;
 }
 
 td.actions {
     display: flex;
-    gap: 10px; /* Add space between buttons */
+    gap: 10px;
 }
 
 button {
@@ -75,7 +75,7 @@ button {
     border: none;
     cursor: pointer;
     border-radius: 10px;
-    color: #fff;
+    color: #ffffff;
 }
 
 button:hover {
@@ -83,27 +83,27 @@ button:hover {
 }
 
 button.save {
-    background: #28a745; /* Green */
+    background: #28a745;
 }
 
 button.delete {
-    background: #dc3545; /* Red */
+    background: #dc3545;
 }
 
 button.search {
-    background: #007bff; /* Blue */
+    background: #007bff;
 }
 
 button.pagination {
-    background: #6c757d; /* Grey */
+    background: #6c757d;
 }
 
 button.edit {
-    background: #ffc107; /* Yellow */
+    background: #ffc107;
 }
 
 button.cancel {
-    background: #6c757d; /* Grey */
+    background: #6c757d;
 }
 
 .search-container {
@@ -113,9 +113,9 @@ button.cancel {
 .search-container input {
     width: 100%;
     margin-right: 10px;
-    background-color: #333;
-    color: #e0e0e0;
-    border: 1px solid #555;
+    background-color: #ffffff;
+    color: #333333;
+    border: 1px solid #cccccc;
     border-radius: 4px;
 }
 
@@ -126,41 +126,38 @@ button.cancel {
 
 .pagination button {
     margin: 0 10px;
-    background: #555;
-    color: #fff;
+    background: #cccccc;
+    color: #333333;
     border: none;
     padding: 10px 20px;
     border-radius: 4px;
 }
 
 .stats {
-    background: #1e1e1e;
+    background: #f9f9f9;
     padding: 20px;
     margin-top: 20px;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    color: #e0e0e0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: #333333;
 }
 
-/* Cố định sidebar */
 .sidebar {
     position: fixed;
     top: 0;
     left: 0;
     height: 100%;
-    width: 250px; /* Điều chỉnh theo kích thước sidebar của bạn */
+    width: 250px;
     overflow: hidden;
-    background-color: #1e1e1e; /* Màu nền của sidebar */
-    z-index: 1000; /* Đảm bảo sidebar luôn ở trên cùng */
+    background-color: #f9f9f9;
+    z-index: 1000;
 }
 
-/* Đặt nội dung chính để có thể cuộn */
 .main-panel {
-    margin-left: 150px; /* Điều chỉnh theo kích thước sidebar của bạn */
+    margin-left: 150px;
     padding: 20px;
     overflow-y: auto;
     height: 100vh;
-    background-color: #121212; /* Màu nền của nội dung chính */
-    color: #e0e0e0; /* Màu chữ của nội dung chính */
+    background-color: #ffffff;
+    color: #333333;
 }
-
