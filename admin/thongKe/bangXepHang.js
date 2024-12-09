@@ -48,3 +48,42 @@ const logout = () => {
         window.location.href = "../../login.html"; // Đổi đường dẫn đến trang đăng nhập của bạn
     }
 };
+
+const ip = localStorage.getItem('ipAddress');
+const API_URL = `http://${ip}:3000`;
+
+async function fetchMentorData() {
+    try {
+        const response = await fetch(`${API_URL}/leaderboard`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch mentor data');
+        }
+        const mentors = await response.json();
+        return mentors;
+    } catch (error) {
+        console.error('Error fetching mentor data:', error);
+        alert('Error fetching mentor data. Please try again.');
+    }
+}
+
+function displayLeaderboard(mentors) {
+    const tableBody = document.getElementById('leaderboardTableBody');
+    tableBody.innerHTML = '';
+
+    mentors.forEach((mentor, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${mentor.name}</td>
+            <td>${mentor.followers.length}</td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const mentors = await fetchMentorData();
+    if (mentors) {
+        displayLeaderboard(mentors);
+    }
+});

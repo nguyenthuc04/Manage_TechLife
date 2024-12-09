@@ -17,6 +17,31 @@
     <link rel="stylesheet" href="../../assets/css/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="../../assets/images/logoweb.jpg"/>
+    <style>
+        .content-wrapper {
+            background-color: #fff;
+            color: #333;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-wrapper h2 {
+            color: #333;
+        }
+
+        .content-wrapper table th {
+            background-color: #f2f2f2;
+            color: #333;
+            padding: 10px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .content-wrapper table td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
 </head>
 <body>
 <div class="container-scroller">
@@ -267,17 +292,21 @@
         </nav>
         <!-- partial -->
         <div class="main-panel">
-            <div class="content-wrapper">
-                <div class="page-header"></div>
-
-                <!--                    code nội dung chức năng ở đây-->
-
-                <h2 style="font-family: Arial,serif;font-weight: bold">Bảng xếp hạng</h2>
-
-
-
-
-                <!-- content-wrapper ends -->
+            <div class="content-wrapper"
+                 style="background-color: #fff; color: #333; padding: 20px; border-radius: 8px;">
+                <h2 style="font-family: Arial, serif; font-weight: bold; color: #333;">Bảng xếp hạng</h2>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                    <tr>
+                        <th style="background-color: #f2f2f2; color: #333; padding: 10px; border-bottom: 2px solid #ddd;">Hạng</th>
+                        <th style="background-color: #f2f2f2; color: #333; padding: 10px; border-bottom: 2px solid #ddd;">Tên</th>
+                        <th style="background-color: #f2f2f2; color: #333; padding: 10px; border-bottom: 2px solid #ddd;">Người theo dõi</th>
+                    </tr>
+                    </thead>
+                    <tbody id="leaderboardTableBody">
+                    <!-- Leaderboard data will be inserted here -->
+                    </tbody>
+                </table>
             </div>
             <!-- partial:../../partials/_footer.html -->
             <footer class="footer">
