@@ -101,8 +101,14 @@ function viewImage(imageUrl) {
 }
 
 async function showApproveModal(requestId, idUser) {
-    const AccountType = await getAccountType(idUser);
-    const typeAcc = AccountType === "mentor" ? "maintain" : "update";
+
+    let AccountType = await getAccountType(idUser)
+    let typeAcc
+    if(AccountType === "mentor") {
+        typeAcc = "maintain"
+    } else if (AccountType === "mentee") {
+        typeAcc = "update"
+    }
 
     const request = await fetch(`${API_URL}/getPremiumRequest/${requestId}`);
     const requestData = await request.json();
@@ -114,11 +120,11 @@ async function showApproveModal(requestId, idUser) {
     const userName = requestData.data.userName;
 
     const approveBtn = document.getElementById('confirmApproveMentorBtn');
-    approveBtn.onclick = () => approveMentor(requestId, idUser, userName);
+    approveBtn.onclick = () => approveMentor(requestId, idUser, userName,typeAcc);
     $('#approveMentorModal').modal('show');
 }
 
-async function approveMentor(requestId, idUser, userName) {
+async function approveMentor(requestId, idUser, userName,typeAccount) {
     try {
         // Gọi API để duyệt mentor
         const mentorResponse = await fetch(`${API_URL}/approveMentor/${requestId}`, { method: 'POST' });
@@ -128,6 +134,8 @@ async function approveMentor(requestId, idUser, userName) {
             alert(mentorData.message || 'Không thể duyệt mentor.');
             return;
         }
+
+        createRevenue(idUser,typeAccount,"500000","ok")
 
         // Gọi API để cập nhật/gia hạn UserPremium
         const premiumResponse = await fetch(`${API_URL}/updateUserPremium`, {
@@ -168,36 +176,36 @@ async function deleteRequest(requestId) {
     }
 }
 
-// function createRevenue(idUser, type, price, idStaff) {
-//     // Tạo đối tượng dữ liệu
-//     const revenueData = {
-//         idUser,
-//         type,
-//         price,
-//         idStaff
-//     };
-//
-//     // Gửi yêu cầu POST tới API
-//     fetch(`${API_URL}/createRevenue`, {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify(revenueData)
-//     })
-//         .then(response => response.json())
-//         .then(data => {
-//             // Hiển thị kết quả trả về từ server
-//             if (data.success) {
-//                 console.log('Revenue created successfully:', data.revenue);
-//             } else {
-//                 console.log('Error:', data.message);
-//             }
-//         })
-//         .catch(error => {
-//             console.error('Error:', error);
-//         });
-// }
+function createRevenue(idUser, type, price, idStaff) {
+    // Tạo đối tượng dữ liệu
+    const revenueData = {
+        idUser,
+        type,
+        price,
+        idStaff
+    };
+
+    // Gửi yêu cầu POST tới API
+    fetch(`${API_URL}/createRevenue`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(revenueData)
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Hiển thị kết quả trả về từ server
+            if (data.success) {
+                console.log('Revenue created successfully:', data.revenue);
+            } else {
+                console.log('Error:', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
 
 async function getAccountType(id) {
     try {
