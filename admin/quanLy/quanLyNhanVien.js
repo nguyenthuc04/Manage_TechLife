@@ -48,163 +48,90 @@ const logout = () => {
         window.location.href = "../../login.html"; // Đổi đường dẫn đến trang đăng nhập của bạn
     }
 };
-// URL của API (thay đổi nếu cần)
 const ip = localStorage.getItem('ipAddress');
 const API_URL = `http://${ip}:3000`;
+let currentPage = 1;
 
-// Hàm tải danh sách nhân viên
-const loadStaffList = async () => {
+// Lấy danh sách người dùng
+async function fetchUsers() {
     try {
-        const response = await fetch(`${API_URL}/getListStaff`);
-        if (!response.ok) throw new Error("Không thể tải danh sách nhân viên.");
+        const search = document.getElementById('searchInput').value;
+        const response = await fetch(`${API_URL}/getListUserQT/?search=${search}&page=${currentPage}&limit=10`);
 
-        const staffList = await response.json();
-        console.log("Dữ liệu trả về từ API:", staffList); // Kiểm tra dữ liệu trả về
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-        const tableBody = document.getElementById("staffTable");
-        tableBody.innerHTML = ""; // Xóa các dòng cũ
+        const { users } = await response.json();
+        const tableBody = document.getElementById('userTableBody');
+        tableBody.innerHTML = '';
 
-        staffList.forEach((staff) => {
+        // Lọc danh sách người dùng để chỉ hiển thị những người có accountType là 'staff'
+        const staffUsers = users.filter(user => user.accountType === 'staff');
+
+        staffUsers.forEach(user => {
             const row = `
                 <tr>
-                    <td>${staff._id}</td>
-                    <td>${staff.name}</td>
-                    <td>${staff.email}</td>
-                    <td>${staff.phone}</td>
-                    <td>${staff.position}</td>
-                    <td>
-                        <button class="btn btn-warning btn-sm" onclick="editStaff('${staff._id}')">Edit</button>
-                        <button class="btn btn-danger btn-sm" onclick="deleteStaff('${staff._id}')">Delete</button>
+                    <td>${user._id}</td>
+                    <td>${user.account}</td>
+                    <td>${user.name}</td>
+                    <td>${user.nickname}</td>
+                    <td>${user.accountType}</td>
+                    <td class="actions">
+                        <button class="delete" onclick="deleteUser('${user._id}')">Xóa</button>
                     </td>
                 </tr>
             `;
             tableBody.innerHTML += row;
         });
+
+        document.getElementById('currentPage').textContent = currentPage;
     } catch (error) {
-        console.error("Lỗi khi tải danh sách nhân viên:", error);
-        alert("Lỗi khi tải danh sách nhân viên!");
+        console.error('Error fetching users:', error);
+        alert('Lỗi khi lấy danh sách người dùng. Vui lòng thử lại.');
     }
-};
+}
 
 
-// Hàm thêm nhân viên
-const addStaff = async (event) => {
-    event.preventDefault();
-    const name = document.getElementById("staffName").value;
-    const email = document.getElementById("staffEmail").value;
-    const phone = document.getElementById("staffPhone").value;
-    const position = document.getElementById("staffPosition").value;
 
-    try {
-        const response = await fetch(`${API_URL}/createStaff`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                name,
-                email,
-                phone,
-                position,
-                department: "Default",
-                hireDate: new Date().toISOString().split("T")[0], // Ngày hiện tại
-                salary: 0,
-                isActive: true
-            }),
-        });
+// Xóa người dùng
+async function deleteUser(id) {
+    if (confirm('Bạn có chắc chắn muốn xóa người dùng này?')) {
+        try {
+            const response = await fetch(`${API_URL}/deleteUserQT/${id}`, {
+                method: 'DELETE'
+            });
 
-        if (!response.ok) throw new Error("Không thể thêm nhân viên.");
-        alert("Nhân viên đã được thêm thành công!");
-        document.getElementById("addStaffForm").reset();
-        $('#addStaffModal').modal('hide');
-        loadStaffList();  // Tải lại danh sách nhân viên sau khi thêm mới
-    } catch (error) {
-        console.error(error);
-        alert("Lỗi khi thêm nhân viên!");
-    }
-};
-
-
-const editStaff = async (id) => {
-    try {
-        // Lấy thông tin nhân viên cần chỉnh sửa từ API
-        const response = await fetch(`${API_URL}/getStaff/${id}`);
-        if (!response.ok) throw new Error("Không thể lấy thông tin nhân viên!");
-
-        const staff = await response.json();
-
-        // Điền thông tin nhân viên vào form chỉnh sửa
-        document.getElementById("editStaffName").value = staff.name;
-        document.getElementById("editStaffEmail").value = staff.email;
-        document.getElementById("editStaffPhone").value = staff.phone;
-        document.getElementById("editStaffPosition").value = staff.position;
-
-        // Cập nhật dữ liệu nhân viên
-        document.getElementById("editStaffForm").onsubmit = async (event) => {
-            event.preventDefault();
-            const name = document.getElementById("editStaffName").value;
-            const email = document.getElementById("editStaffEmail").value;
-            const phone = document.getElementById("editStaffPhone").value;
-            const position = document.getElementById("editStaffPosition").value;
-
-            try {
-                const response = await fetch(`${API_URL}/updateStaff/${id}`, {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        name,
-                        email,
-                        phone,
-                        position,
-                    }),
-                });
-
-                if (!response.ok) throw new Error("Không thể cập nhật nhân viên.");
-                alert("Nhân viên đã được cập nhật thành công!");
-                $('#editStaffModal').modal('hide');
-                loadStaffList();  // Tải lại danh sách nhân viên sau khi cập nhật
-            } catch (error) {
-                console.error(error);
-                alert("Lỗi khi cập nhật nhân viên!");
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-        };
 
-        // Hiển thị modal chỉnh sửa
-        $('#editStaffModal').modal('show');
-
-    } catch (error) {
-        console.error(error);
-        alert("Lỗi khi lấy thông tin nhân viên!");
+            fetchUsers();
+        } catch (error) {
+            console.error('Error deleting user:', error);
+            alert('Lỗi khi xóa người dùng. Vui lòng thử lại.');
+        }
     }
-};
+}
 
 
 
-
-
-
-
-
-// Hàm xóa nhân viên
-const deleteStaff = async (id) => {
-    if (!confirm("Bạn có chắc chắn muốn xóa nhân viên này không?")) return;
-
-    try {
-        const response = await fetch(`${API_URL}/deleteStaff/${id}`, { method: "DELETE" });
-        if (!response.ok) throw new Error("Không thể xóa nhân viên.");
-        alert("Nhân viên đã được xóa thành công!");
-        loadStaffList();  // Tải lại danh sách nhân viên sau khi xóa
-    } catch (error) {
-        console.error(error);
-        alert("Lỗi khi xóa nhân viên!");
+// Phân trang
+function prevPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        fetchUsers();
     }
-};
+}
 
-// Khởi tạo trang
-document.addEventListener("DOMContentLoaded", () => {
-    loadStaffList();  // Tải danh sách nhân viên khi trang được tải
-    document.getElementById("addStaffForm").addEventListener("submit", addStaff); // Lắng nghe sự kiện submit form thêm nhân viên
+function nextPage() {
+    currentPage++;
+    fetchUsers();
+}
+
+// Khởi tạo
+document.addEventListener('DOMContentLoaded', () => {
+    fetchUsers();
+    fetchStats();
+    document.getElementById('userForm').addEventListener('submit', submitForm);
 });
-fetch('http://26.187.200.144:3000/getListStaff')
-    .then(response => response.json())
-    .then(data => console.log('Dữ liệu:', data))
-    .catch(error => console.error('Lỗi fetch:', error));
-
