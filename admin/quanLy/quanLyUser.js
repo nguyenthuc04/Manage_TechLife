@@ -196,10 +196,7 @@ async function deleteUser(id) {
     if (confirm('Bạn có chắc chắn muốn xóa người dùng này?')) {
         try {
             const response = await fetch(`${API_URL}/deleteUserQT/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
+                method: 'DELETE'
             });
 
             if (!response.ok) {
