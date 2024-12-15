@@ -104,7 +104,7 @@ function displayAcceptedCourses(courses) {
                     Chấp nhận lúc: ${new Date(course.date).toLocaleString()}
                 </div>
                 <div class="course-actions">
-                    <button onclick="unarchiveCourse('${course._id}')" class="unarchive-button">Hủy lưu trữ</button>
+                    <button onclick="unarchiveCourse('${course._id}')" class="unarchive-button">Hủy</button>
                 </div>
             `;
             acceptedCoursesList.appendChild(courseElement);
@@ -217,7 +217,7 @@ function fetchCourses() {
                     </div>
                     </div>
                     <div class="course-actions">
-                        <button onclick="acceptCourse('${course._id}')" class="accept-button">Chấp nhận</button>
+                        <button onclick="acceptCourse('${course._id}')" class="accept-button">Đã kiểm tra</button>
                         <button onclick="deleteCourse('${course._id}')" class="reject-button">Từ chối</button>
                     </div>
                 `;
